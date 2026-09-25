@@ -1,0 +1,24 @@
+# Environments
+qwen_env/
+venv/
+env/
+
+# Large Model weights & Checkpoints
+models/
+*.gguf
+*.safetensors
+*.bin
+*.ckpt
+*.pt
+
+# Submodules & Cloned Frameworks
+ComfyUI/
+ai-toolkit/
+llama.cpp/
+
+# Logs and temporary files
+*.log
+*.save
+*.txt
+__pycache__/
+.cache/
