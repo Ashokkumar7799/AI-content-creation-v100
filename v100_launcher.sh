@@ -13,6 +13,7 @@ echo "2. Boot AI Toolkit Web UI (LoRA Training)"
 echo "3. Boot Image Generation (ComfyUI - SDXL / Krea 2)"
 echo "4. Setup & Download Krea 2 Models & Nodes"
 echo "5. Boot Qwen 3.8 Video Director (1 FPS Motion Analyzer -> LTX Prompts)"
+echo "6. Setup & Download Wan 2.2 14B SVI Pro (Continuous Video)"
 echo "9. ❌ Kill all running AI processes and free VRAM"
 echo "=========================================="
 read -p "Select a launch option (1-9): " option
@@ -230,6 +231,18 @@ elif [ "$option" == "5" ]; then
     done
     
     start_pinggy 7861
+
+elif [ "$option" == "6" ]; then
+    echo "=========================================="
+    echo "📦 Running Wan 2.2 14B SVI Pro Setup & Downloader..."
+    echo "=========================================="
+    if [ -f "$AI_DIR/setup_wan22_svi.sh" ]; then
+        bash "$AI_DIR/setup_wan22_svi.sh"
+    elif [ -f "./setup_wan22_svi.sh" ]; then
+        bash "./setup_wan22_svi.sh"
+    else
+        echo "⚠️ setup_wan22_svi.sh not found."
+    fi
 
 elif [ "$option" == "9" ]; then
     echo "✅ ALL AI PROCESSES KILLED. RAM IS COMPLETELY FREE."
