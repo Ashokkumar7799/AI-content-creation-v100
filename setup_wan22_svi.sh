@@ -8,7 +8,7 @@ set -e
 
 WORKSPACE="$HOME/AI"
 COMFY_DIR="$WORKSPACE/ComfyUI"
-VENV_DIR="$COMFY_DIR/venv"
+VENV_DIR="$COMFY_DIR/venv_wan"
 PIP="$VENV_DIR/bin/pip"
 
 DIFFUSION_DIR="$COMFY_DIR/models/diffusion_models"
@@ -19,19 +19,22 @@ CUSTOM_NODES_DIR="$COMFY_DIR/custom_nodes"
 
 echo "=================================================================="
 echo "  🚀 WAN 2.2 14B SVI 2 PRO AUTOMATED SETUP & DOWNLOADER"
+echo "  🛡️ Isolated Quarantine Environment: venv_wan"
 echo "=================================================================="
 
-# 1. Verify ComfyUI base exists
-if [ ! -d "$COMFY_DIR" ]; then
-    echo "⚙️ ComfyUI not found. Cloning ComfyUI..."
-    mkdir -p "$WORKSPACE"
-    cd "$WORKSPACE"
-    git clone https://github.com/comfyanonymous/ComfyUI.git
-    cd "$COMFY_DIR"
+# 1. Setup Isolated Quarantine Environment (venv_wan)
+echo "🐍 Setting up isolated venv_wan to protect Krea 2 / SDXL environment..."
+if [ ! -d "$VENV_DIR" ]; then
+    echo "⚙️ Creating fresh virtual environment: $VENV_DIR..."
     python3 -m venv "$VENV_DIR"
     $PIP install --upgrade pip
+    echo "⚙️ Installing PyTorch (CUDA 12.4 for V100)..."
     $PIP install --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
-    $PIP install -r requirements.txt
+    if [ -f "$COMFY_DIR/requirements.txt" ]; then
+        $PIP install -r "$COMFY_DIR/requirements.txt"
+    fi
+else
+    echo "✅ Isolated venv_wan already exists."
 fi
 
 # 2. Install Required Custom Nodes

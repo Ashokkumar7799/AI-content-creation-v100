@@ -10,10 +10,11 @@ echo " 🚀 V100 AI STUDIO MASTER LAUNCHER"
 echo "=========================================="
 echo "1. Boot Qwen 3.8 Vision Studio (Chat & Image Mode)"
 echo "2. Boot AI Toolkit Web UI (LoRA Training)"
-echo "3. Boot Image Generation (ComfyUI - SDXL / Krea 2)"
+echo "3. Boot ComfyUI (Krea 2 / SDXL - venv)"
 echo "4. Setup & Download Krea 2 Models & Nodes"
 echo "5. Boot Qwen 3.8 Video Director (1 FPS Motion Analyzer -> LTX Prompts)"
-echo "6. Setup & Download Wan 2.2 14B SVI Pro (Continuous Video)"
+echo "6. Setup & Download Wan 2.2 14B SVI Pro (venv_wan)"
+echo "7. Boot ComfyUI for Wan 2.2 SVI Pro (venv_wan)"
 echo "9. ❌ Kill all running AI processes and free VRAM"
 echo "=========================================="
 read -p "Select a launch option (1-9): " option
@@ -243,6 +244,34 @@ elif [ "$option" == "6" ]; then
     else
         echo "⚠️ setup_wan22_svi.sh not found."
     fi
+
+elif [ "$option" == "7" ]; then
+    echo "=========================================="
+    echo "🎬 Booting ComfyUI for Wan 2.2 SVI Pro (venv_wan)..."
+    echo "=========================================="
+    
+    cd $AI_DIR/ComfyUI
+    if [ ! -d "venv_wan" ]; then
+        echo "❌ Error: venv_wan not found! Please run Option 6 first to set up Wan 2.2."
+        exit 1
+    fi
+    source venv_wan/bin/activate
+    
+    export PYTORCH_CUDA_ALLOC_CONF="expandable_segments:True"
+    
+    echo "⏳ Starting ComfyUI (port 8188 with --lowvram in isolated venv_wan)..."
+    python main.py --listen 0.0.0.0 --port 8188 --lowvram --preview-method auto > $AI_DIR/comfyui.log 2>&1 &
+    
+    echo "⏳ Waiting for ComfyUI to come up on port 8188 (max 60 seconds)..."
+    for i in {1..60}; do
+        if curl -s http://localhost:8188 > /dev/null; then
+            echo "✅ ComfyUI (Wan 2.2 SVI Pro) is up!"
+            break
+        fi
+        sleep 1
+    done
+    
+    start_pinggy 8188
 
 elif [ "$option" == "9" ]; then
     echo "✅ ALL AI PROCESSES KILLED. RAM IS COMPLETELY FREE."
