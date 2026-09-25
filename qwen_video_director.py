@@ -38,7 +38,7 @@ Provide a single, continuous, highly descriptive cinematic paragraph specificall
 def extract_keyframes_1fps(video_path, fps_rate=1.0, max_frames=30, resolution_px=512):
     """
     Extracts frames at exactly 1 frame per second (or custom rate).
-    Downscales frames to resolution_px (default 512px) for fast token encoding and 7-8 t/s inference.
+    Downscales frames to resolution_px (default 512px) for fast token encoding and high tokens/sec.
     """
     if not video_path:
         return [], [], 0, 0
@@ -67,7 +67,6 @@ def extract_keyframes_1fps(video_path, fps_rate=1.0, max_frames=30, resolution_p
             rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             img = Image.fromarray(rgb_frame)
 
-            # Downscale proportionally to selected resolution (512px by default)
             max_dim = int(resolution_px)
             w, h = img.size
             if max(w, h) > max_dim:
@@ -86,48 +85,111 @@ def extract_keyframes_1fps(video_path, fps_rate=1.0, max_frames=30, resolution_p
     cap.release()
     return extracted_images, base64_list, duration, native_fps
 
-def analyze_video_fn(video_file, custom_instructions, fps_choice, res_choice, system_prompt, temperature, max_tokens):
-    if not video_file:
-        yield [], "⚠️ Please upload a video file (.mp4, .mov, .webm) first.", ""
+def extract_clean_prompt(c_text):
+    if not c_text:
+        return ""
+    clean = c_text
+    if "<think>" in clean and "</think>" in clean:
+        clean = clean.split("</think>")[-1].strip()
+    elif "<think>" in clean:
+        return ""
+    
+    if "### 2." in clean:
+        parts = clean.split("### 2.")[1]
+        if "### 3." in parts:
+            prompt_section = parts.split("### 3.")[0]
+        else:
+            prompt_section = parts
+        lines = [l for l in prompt_section.strip().split("\n") if not l.startswith("#") and not l.startswith("🎯")]
+        return "\n".join(lines).strip()
+    return clean.strip()
+
+def render_output(r_text, c_text):
+    res = ""
+    if r_text.strip():
+        res += f"💭 **Director Thinking Process:**\n```text\n{r_text}\n```\n\n"
+    
+    if "<think>" in c_text:
+        formatted = c_text.replace("<think>", "💭 **Director Thinking Process:**\n```text\n")
+        if "</think>" in formatted:
+            formatted = formatted.replace("</think>", "\n```\n\n")
+        res += formatted
+    else:
+        res += c_text
+    return res
+
+def director_fn(user_text, video_file, history_messages, display_history, video_cache, fps_choice, res_choice, history_mode, system_prompt, temperature, max_tokens):
+    if not user_text and video_file is None and not history_messages:
+        yield display_history, history_messages, "", [], "", video_cache
         return
 
     fps_rate = 1.0 if "1 fps" in fps_choice else 2.0
     res_px = 512 if "512px" in res_choice else 768
-    yield [], f"⏳ *Extracting keyframes at {fps_rate} fps ({res_px}px)...*", ""
+    
+    current_content = []
+    user_display = ""
+    gallery_images = video_cache.get("gallery", []) if video_cache else []
 
-    try:
-        gallery_images, base64_frames, duration, native_fps = extract_keyframes_1fps(video_file, fps_rate=fps_rate, resolution_px=res_px)
-    except Exception as e:
-        yield [], f"❌ Error reading video: {str(e)}", ""
-        return
+    is_new_video = False
+    if video_file is not None:
+        cached_path = video_cache.get("path") if video_cache else None
+        if cached_path != video_file:
+            is_new_video = True
 
-    if not base64_frames:
-        yield [], "❌ Could not extract any frames from the video.", ""
-        return
+    if is_new_video:
+        display_history.append({"role": "user", "content": f"🎥 *Extracting keyframes at {fps_rate} fps ({res_px}px)...*"})
+        display_history.append({"role": "assistant", "content": "⏳ *Processing video frames...*"})
+        yield display_history, history_messages, "", gallery_images, "", video_cache
+        display_history.pop()
+        display_history.pop()
 
-    status_msg = f"✅ Extracted **{len(base64_frames)} frames** (sampled from a {duration:.1f}s video at {fps_rate} fps).\n⏳ *Sending all frames to Qwen 3.8 for motion analysis...*"
-    yield gallery_images, status_msg, ""
+        try:
+            gallery_images, base64_frames, duration, native_fps = extract_keyframes_1fps(video_file, fps_rate=fps_rate, resolution_px=res_px)
+            video_cache = {"path": video_file, "frames": base64_frames, "gallery": gallery_images}
+        except Exception as e:
+            err_msg = f"❌ Error extracting video frames: {str(e)}"
+            display_history.append({"role": "user", "content": "🎥 Video upload"})
+            display_history.append({"role": "assistant", "content": err_msg})
+            yield display_history, history_messages, "", [], "", video_cache
+            return
 
-    # Build the multi-image payload: ALL frames passed at once!
-    content_payload = []
-    for b64 in base64_frames:
-        content_payload.append({
-            "type": "image_url",
-            "image_url": {"url": f"data:image/jpeg;base64,{b64}"}
-        })
+        for b64 in base64_frames:
+            current_content.append({
+                "type": "image_url",
+                "image_url": {"url": f"data:image/jpeg;base64,{b64}"}
+            })
 
-    user_text = (
-        f"This is a chronological sequence of {len(base64_frames)} frames sampled at {fps_rate} fps from a {duration:.1f}-second video.\n"
-        f"Additional Creator Instructions: {custom_instructions.strip() if custom_instructions else 'Analyze motion, camera trajectory, and generate exact LTX-Video 2.3 prompt.'}\n\n"
-        "Reverse-engineer this entire video sequence into the required structured breakdown and Master LTX-Video 2.3 prompt."
-    )
-    content_payload.append({"type": "text", "text": user_text})
+        user_prompt_text = (
+            f"This is a chronological sequence of {len(base64_frames)} frames sampled at {fps_rate} fps from a {duration:.1f}-second video.\n"
+            f"Additional Creator Instructions: {user_text.strip() if user_text and user_text.strip() else 'Analyze motion, camera trajectory, and generate exact LTX-Video 2.3 prompt.'}\n\n"
+            "Reverse-engineer this entire video sequence into the required structured breakdown and Master LTX-Video 2.3 prompt."
+        )
+        current_content.append({"type": "text", "text": user_prompt_text})
+        user_display = f"🎥 **Analyzed Video:** {len(base64_frames)} frames ({duration:.1f}s at {fps_rate} fps)\n\n"
+        if user_text and user_text.strip():
+            user_display += f"✍️ **Instructions:** {user_text.strip()}"
+    else:
+        text_content = user_text.strip() if user_text and user_text.strip() else "Refine the master LTX-Video prompt based on previous analysis."
+        current_content.append({"type": "text", "text": text_content})
+        user_display = text_content
+
+    history_messages.append({"role": "user", "content": current_content})
+    display_history.append({"role": "user", "content": user_display})
+    display_history.append({"role": "assistant", "content": "⏳ *Starting director thinking process...*"})
+    yield display_history, history_messages, "", gallery_images, "", video_cache
+
+    dialogue_turns = [m for m in history_messages if m.get("role") != "system"]
+    system_msg = {"role": "system", "content": system_prompt}
+
+    if history_mode == "Single Prompt (Fastest)":
+        payload_messages = [system_msg, dialogue_turns[-1]]
+    elif history_mode == "Last 2 Exchanges":
+        payload_messages = [system_msg] + dialogue_turns[-4:]
+    else:
+        payload_messages = [system_msg] + dialogue_turns
 
     payload = {
-        "messages": [
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": content_payload}
-        ],
+        "messages": payload_messages,
         "temperature": float(temperature),
         "max_tokens": int(max_tokens),
         "stream": True
@@ -138,42 +200,9 @@ def analyze_video_fn(video_file, custom_instructions, fps_choice, res_choice, sy
     last_yield_time = 0
     yield_interval = 0.05
 
-    def extract_clean_prompt(c_text):
-        if not c_text:
-            return ""
-        clean = c_text
-        if "<think>" in clean and "</think>" in clean:
-            clean = clean.split("</think>")[-1].strip()
-        elif "<think>" in clean:
-            return ""
-        
-        if "### 2." in clean:
-            parts = clean.split("### 2.")[1]
-            if "### 3." in parts:
-                prompt_section = parts.split("### 3.")[0]
-            else:
-                prompt_section = parts
-            lines = [l for l in prompt_section.strip().split("\n") if not l.startswith("#") and not l.startswith("🎯")]
-            return "\n".join(lines).strip()
-        return clean.strip()
-
-    def render_output(r_text, c_text):
-        res = ""
-        if r_text.strip():
-            res += f"💭 **Director Thinking Process:**\n```text\n{r_text}\n```\n\n"
-        
-        if "<think>" in c_text:
-            formatted = c_text.replace("<think>", "💭 **Director Thinking Process:**\n```text\n")
-            if "</think>" in formatted:
-                formatted = formatted.replace("</think>", "\n```\n\n")
-            res += formatted
-        else:
-            res += c_text
-        return res
-
     response = None
     try:
-        response = requests.post(SERVER_URL, json=payload, stream=True, timeout=240)
+        response = requests.post(SERVER_URL, json=payload, stream=True, timeout=300)
         response.raise_for_status()
 
         for line in response.iter_lines():
@@ -200,13 +229,15 @@ def analyze_video_fn(video_file, custom_instructions, fps_choice, res_choice, sy
                             if current_time - last_yield_time > yield_interval:
                                 live_view = render_output(reasoning_reply, content_reply)
                                 live_prompt = extract_clean_prompt(content_reply)
-                                yield gallery_images, live_view, live_prompt
+                                display_history[-1] = {"role": "assistant", "content": live_view}
+                                yield display_history, history_messages, "", gallery_images, live_prompt, video_cache
                                 last_yield_time = current_time
                     except json.JSONDecodeError:
                         pass
     except Exception as e:
-        err = f"❌ Error communicating with llama-server: {str(e)}\nIs llama-server running on port 8080?"
-        yield gallery_images, err, ""
+        err_msg = f"❌ Error communicating with llama-server: {str(e)}\nIs llama-server running on port 8080?"
+        display_history[-1] = {"role": "assistant", "content": err_msg}
+        yield display_history, history_messages, "", gallery_images, "", video_cache
         return
     finally:
         if response is not None:
@@ -214,10 +245,11 @@ def analyze_video_fn(video_file, custom_instructions, fps_choice, res_choice, sy
 
     final_view = render_output(reasoning_reply, content_reply)
     final_prompt = extract_clean_prompt(content_reply)
-    yield gallery_images, final_view, final_prompt
+    display_history[-1] = {"role": "assistant", "content": final_view}
+    history_messages.append({"role": "assistant", "content": final_view})
+    yield display_history, history_messages, "", gallery_images, final_prompt, video_cache
 
 def stop_video_analysis():
-    """Immediately stops GPU token generation in llama-server."""
     try:
         slots_resp = requests.get("http://localhost:8080/slots", timeout=1)
         if slots_resp.status_code == 200:
@@ -230,80 +262,111 @@ def stop_video_analysis():
 
 def clear_all():
     stop_video_analysis()
-    return None, [], "", "", ""
+    return [], [], "", None, [], "", {"path": None, "frames": [], "gallery": []}
 
-# Standalone UI
-with gr.Blocks(title="Qwen 3.8 Video-to-LTX Director Studio") as demo:
-    gr.Markdown("# 🎬 Qwen 3.8 Video Director Studio (1 FPS Motion Analyzer)")
-    gr.Markdown("Drop any Instagram Reel or video (.mp4). It extracts frames at **1 FPS**, analyzes camera & body motion, and writes the **exact LTX-Video 2.3 prompt** to recreate it!")
+with gr.Blocks(title="Qwen 3.8 Video Director Studio") as demo:
+    gr.Markdown("# 🎬 Qwen 3.8 Video Director Studio (1 FPS Motion Analyzer -> LTX Prompts)")
+    gr.Markdown("Drop any Instagram Reel or video (.mp4). Analyzes camera motion, actor actions, and outputs ready-to-copy LTX-Video 2.3 prompts.")
+
+    history_messages = gr.State([])
+    video_cache = gr.State({"path": None, "frames": [], "gallery": []})
 
     with gr.Row():
-        with gr.Column(scale=1):
-            video_input = gr.Video(label="🎥 Upload Reference Video (.mp4, .mov, .webm)")
+        # LEFT COLUMN: Generation, Interactive Revisions, and Master Copy Box (scale=5)
+        with gr.Column(scale=5):
+            chatbot = gr.Chatbot(label="🎬 Director Analysis & Revisions", height=520)
+
+            with gr.Row():
+                text_input = gr.Textbox(
+                    lines=2,
+                    placeholder="Enter custom character notes (e.g. tarastyles in yellow dress) or follow-up revisions...",
+                    label="✍️ Instructions / Follow-up Revisions",
+                    scale=4
+                )
+                with gr.Column(scale=1):
+                    analyze_btn = gr.Button("🚀 Analyze / Send", variant="primary")
+                    stop_btn = gr.Button("⏹️ Stop", variant="stop")
+
+            with gr.Row():
+                clear_btn = gr.Button("🧹 New Analysis / Clear", variant="secondary")
+
+            latest_output = gr.Textbox(
+                label="📋 Master LTX-Video Prompt (Ready to Copy)",
+                lines=5,
+                interactive=False
+            )
+
+        # RIGHT COLUMN: Video Upload, Filmstrip Gallery, and Settings (scale=2)
+        with gr.Column(scale=2):
+            video_input = gr.Video(label="🎥 Reference Video (.mp4, .mov, .webm)")
             
+            frame_gallery = gr.Gallery(
+                label="🎞️ Extracted 1 FPS Keyframe Filmstrip",
+                columns=3,
+                rows=2,
+                height=220,
+                object_fit="contain"
+            )
+
             with gr.Accordion("⚙️ Video Sampling & Director Settings", open=True):
+                history_mode = gr.Radio(
+                    choices=["Last 2 Exchanges", "Single Prompt (Fastest)", "Full History"],
+                    value="Last 2 Exchanges",
+                    label="⚡ Memory Mode"
+                )
                 fps_choice = gr.Radio(
                     choices=["1 fps (Recommended for Reels 5-30s)", "2 fps (Short Clips 2-5s)"],
                     value="1 fps (Recommended for Reels 5-30s)",
                     label="⏱️ Keyframe Sampling Rate"
                 )
                 res_choice = gr.Radio(
-                    choices=["512px (Fast 7-8 t/s - Recommended)", "768px (Ultra Detail ~3 t/s)"],
+                    choices=["512px (Fast 7-8 t/s - Recommended)", "768px (Ultra Detail ~4 t/s)"],
                     value="512px (Fast 7-8 t/s - Recommended)",
                     label="📐 Keyframe Resolution"
                 )
-                custom_notes = gr.Textbox(
-                    lines=2,
-                    placeholder="e.g. Recreate this using tarastyles woman wearing a yellow summer dress in Rome...",
-                    label="✍️ Custom Character / Style Overrides (Optional)"
+                tokens_slider = gr.Slider(
+                    minimum=512,
+                    maximum=16384,
+                    value=16000,
+                    step=512,
+                    label="Max Generation Tokens"
                 )
-                tokens_slider = gr.Slider(minimum=512, maximum=4096, value=2048, step=256, label="Max Output Tokens")
-                temp_slider = gr.Slider(minimum=0.1, maximum=1.0, value=0.6, step=0.05, label="Temperature")
-                system_box = gr.Textbox(lines=4, value=system_default_director, label="System Director Instructions")
+                temp_slider = gr.Slider(
+                    minimum=0.1,
+                    maximum=1.2,
+                    value=0.6,
+                    step=0.05,
+                    label="Temperature"
+                )
+                system_box = gr.Textbox(
+                    lines=4,
+                    value=system_default_director,
+                    label="System Director Instructions"
+                )
 
-            with gr.Row():
-                analyze_btn = gr.Button("🚀 Analyze Video & Generate LTX Prompt", variant="primary", scale=3)
-                stop_btn = gr.Button("⏹️ Stop", variant="stop", scale=1)
-
-            clear_btn = gr.Button("🧹 Clear Video & Analysis", variant="secondary")
-
-        with gr.Column(scale=1):
-            frame_gallery = gr.Gallery(
-                label="🎞️ Extracted 1 FPS Keyframe Filmstrip",
-                columns=4,
-                rows=2,
-                height=260,
-                object_fit="contain"
-            )
-
-            output_markdown = gr.Markdown(
-                value="*Upload a video and click 'Analyze Video' to see the frame breakdown and master LTX prompt.*"
-            )
-
-            copy_box = gr.Textbox(
-                label="📋 Master LTX-Video Prompt (Ready to Copy)",
-                lines=5,
-                interactive=False
-            )
-
-    # Wire actions
     analyze_event = analyze_btn.click(
-        fn=analyze_video_fn,
-        inputs=[video_input, custom_notes, fps_choice, res_choice, system_box, temp_slider, tokens_slider],
-        outputs=[frame_gallery, output_markdown, copy_box]
+        fn=director_fn,
+        inputs=[text_input, video_input, history_messages, chatbot, video_cache, fps_choice, res_choice, history_mode, system_box, temp_slider, tokens_slider],
+        outputs=[chatbot, history_messages, text_input, frame_gallery, latest_output, video_cache]
+    )
+
+    submit_event = text_input.submit(
+        fn=director_fn,
+        inputs=[text_input, video_input, history_messages, chatbot, video_cache, fps_choice, res_choice, history_mode, system_box, temp_slider, tokens_slider],
+        outputs=[chatbot, history_messages, text_input, frame_gallery, latest_output, video_cache]
     )
 
     stop_btn.click(
         fn=stop_video_analysis,
         inputs=None,
         outputs=None,
-        cancels=[analyze_event]
+        cancels=[analyze_event, submit_event]
     )
 
     clear_btn.click(
         fn=clear_all,
         inputs=[],
-        outputs=[video_input, frame_gallery, output_markdown, copy_box, custom_notes]
+        outputs=[chatbot, history_messages, text_input, video_input, frame_gallery, latest_output, video_cache]
     )
 
 if __name__ == "__main__":

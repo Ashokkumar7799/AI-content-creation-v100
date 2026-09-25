@@ -69,7 +69,7 @@ if [ "$option" == "1" ]; then
       -ngl 50 \
       -t 12 \
       -c 20480 \
-      -fa \
+      -fa on \
       -ctk q8_0 \
       -ctv q8_0 > $AI_DIR/llama_server.log 2>&1 &
       
@@ -188,7 +188,7 @@ elif [ "$option" == "5" ]; then
           -ngl 50 \
           -t 12 \
           -c 20480 \
-          -fa \
+          -fa on \
           -ctk q8_0 \
           -ctv q8_0 > $AI_DIR/llama_server.log 2>&1 &
           
