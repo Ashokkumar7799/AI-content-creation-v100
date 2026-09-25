@@ -41,19 +41,19 @@ HAIR:
 - Natural hair texture: some strands are curlier than others, slight frizz near the crown is GOOD (realistic)
 - Hair has natural sheen, not artificial glossy shine
 
-BODY (CRITICAL — NEVER SLIM HER DOWN):
-- Body type: Fuller, natural, healthy Indian college girl build. She has visible curves and soft tissue.
-- Shoulders: Medium-width, natural soft slope, not bony
-- Arms: Soft, slightly fleshy upper arms with natural fullness, not toned/muscular. Natural skin folds visible when arm bends. Slight natural darkness on elbows
-- Bust: Medium-full, natural, proportional to her frame
-- Waist: NOT narrow/cinched — natural waist with soft definition, not an hourglass
-- Hips: WIDER than waist, natural pear-shaped tendency. This is visible in how jeans/skirts sit on her
-- Thighs: FULLER, touch slightly when standing, natural thickness. Visible when wearing shorts/skirts. Real thigh texture — slight dimpling/unevenness is realistic and GOOD
-- Legs: Average length for 5'3"-5'4", naturally shaped, slight natural darker tone on knees
-- Stomach: Not flat — slight natural softness when sitting, visible when wearing crop tops. Natural skin fold when bending
-- Hands: Small-medium, warm brown, nails are natural/clean — not long acrylics
-- Feet: Small, natural, slightly darker soles — visible when barefoot in room scenes
-- Overall: She looks like a REAL 21-year-old Indian girl. Not a model. Not edited. Not filtered. Her body has natural proportions with soft tissue, slight asymmetries, and real skin texture everywhere.
+BODY (THE PERFECT SHAPE — NOT CHUBBY, NOT SLIM):
+- Body type: The "Perfect Shape" — a naturally curvy, toned, and healthy South Indian college girl build with balanced feminine curves. She is NOT skinny or slim like a runway model, and she is NOT chubby or heavy.
+- Shoulders: Clean, softly sculpted feminine shoulders, delicate collarbones catching light.
+- Arms: Gracefully shaped feminine arms with natural gentle tone (not bulky muscular, not bony thin, not overly fleshy).
+- Bust: Naturally full, firm, well-proportioned bust filling out tops, crop tops, and blouses with natural feminine lift and subtle cleavage.
+- Waist: Toned, smooth, flat yet soft feminine midriff with a defined natural waist taper (subtle feminine hourglass curve, visible natural navel, toned waistline without harsh six-pack abs).
+- Hips: Curvaceous, rounded, shapely feminine hips that fill out high-waisted jeans, skirts, and shorts with an attractive, natural feminine sweep.
+- Thighs: Shapely, athletic-toned thighs with natural soft firmness, filling slim-fit jeans comfortably without excess bulk.
+- Legs: Average length for 5'3"-5'4", gracefully shaped, smooth toned calves.
+- Stomach: Toned and flat with natural feminine softness when moving or seated.
+- Hands: Small-medium, warm brown, nails are natural/clean — not long acrylics.
+- Feet: Small, natural, clean soles.
+- Overall Silhouette: A gorgeous, naturally curvy, toned South Indian college beauty with an enviable balanced figure — firm bust, defined waist, shapely hips, and smooth natural curves as seen in her reference photos.
 
 SKIN DETAIL (ENTIRE BODY — NOT JUST FACE):
 - Skin tone is NOT perfectly even — slightly darker on elbows, knees, knuckles, and ankle areas (natural for Indian skin)
@@ -70,12 +70,11 @@ ACCESSORIES: No fixed accessories — jewelry changes per outfit
 IMPORTANT: ALL the above body details go in Krea2 image prompts. For LTX video prompts, the reference image provides the primary identity — but you CAN include relevant physical details (skin tone, body shape, hair texture, facial expression) when the scene demands it (e.g., close-ups, body-focused actions). Keep them consistent with the character description above.
 
 HOW CLOTHES FIT ON TARA'S BODY (FABRIC-BODY INTERACTION):
-- Jeans: Slight stretch at thighs and hips, natural creasing at knee bends, sits snug on fuller hips
-- Crop tops: Show the natural softness of her midriff, slight skin fold when seated, fabric pulls slightly across bust
-- Kurtas: Drape naturally over curves, fabric gathers at waist if belted, sleeves fit snug on upper arms
-- Skirts: Sit at natural waist, flare or stretch depending on style, hemline shifts slightly due to hip width
-- Sarees: Pallu drapes over shoulder with natural weight, fabric wraps around curves showing silhouette, pleats at waist over natural stomach
-- NEVER show clothes fitting like they would on a mannequin or slim model — clothes interact with her REAL body shape
+- Jeans: Hugs her shapely hips and thighs snugly with clean stretch lines, sitting high on her defined waist.
+- Crop tops: Sits cleanly across her full bust, exposing a toned, smooth, flat feminine midriff and navel.
+- Kurtas: Drape elegantly over her balanced curves, gently accentuating her waist taper and hips.
+- Skirts: Sit securely at her natural waist, flowing gracefully over her rounded hip silhouette.
+- Sarees: Pallu drapes gracefully over her shoulder, blouse fitting snugly across her bust, pleats sitting neatly at her toned waistline.
 
 PERSONALITY IN VISUALS:
 - Girl-next-door vibe — warm, approachable, the girl you'd want to talk to
