@@ -27,15 +27,41 @@ echo "🐍 Setting up isolated venv_wan to protect Krea 2 / SDXL environment..."
 if [ ! -d "$VENV_DIR" ]; then
     echo "⚙️ Creating fresh virtual environment: $VENV_DIR..."
     python3 -m venv "$VENV_DIR"
-    $PIP install --upgrade pip
+fi
+
+if [ ! -f "$VENV_DIR/bin/pip" ]; then
+    echo "⚙️ Ensuring pip is installed inside venv_wan..."
+    "$VENV_DIR/bin/python" -m ensurepip --upgrade 2>/dev/null || curl -sS https://bootstrap.pypa.io/get-pip.py | "$VENV_DIR/bin/python"
+fi
+
+echo "⚙️ Ensuring pip, uv, and wheel are up to date..."
+$PIP install --upgrade pip uv setuptools wheel
+
+if ! "$VENV_DIR/bin/python" -c "import torch" 2>/dev/null; then
     echo "⚙️ Installing PyTorch (CUDA 12.4 for V100)..."
     $PIP install --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
-    if [ -f "$COMFY_DIR/requirements.txt" ]; then
-        $PIP install -r "$COMFY_DIR/requirements.txt"
-    fi
-else
-    echo "✅ Isolated venv_wan already exists."
 fi
+
+if [ -f "$COMFY_DIR/requirements.txt" ]; then
+    echo "⚙️ Installing ComfyUI base requirements..."
+    $PIP install -r "$COMFY_DIR/requirements.txt" || true
+fi
+
+# Patch comfy_kitchen PEP-585 list[...] schema incompatibility with PyTorch < 2.7
+echo "🩹 Applying comfy_kitchen PyTorch schema patch..."
+"$VENV_DIR/bin/python" -c "
+import glob, os, sys, re
+for p in sys.path:
+    for f in glob.glob(os.path.join(p, 'comfy_kitchen', '**', '*.py'), recursive=True):
+        with open(f, 'r') as fp:
+            c = fp.read()
+        if 'list[' in c:
+            c = 'import typing\n' + re.sub(r'\blist\[', 'typing.List[', c)
+            with open(f, 'w') as fp:
+                fp.write(c)
+            print(f'Patched: {f}')
+" 2>/dev/null || true
+
 
 # 2. Install Required Custom Nodes
 echo "=================================================================="
