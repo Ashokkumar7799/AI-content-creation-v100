@@ -70,79 +70,87 @@ mkdir -p "$LORAS_DIR"
 mkdir -p "$VAE_DIR"
 mkdir -p "$TEXT_ENCODER_DIR"
 
-# 4. Fast Downloader Function (aria2c or wget)
-download_file() {
-    local url=$1
-    local dest_file=$2
-    local label=$3
+# 4. Ultra-Fast Hugging Face CLI Downloader (HF-Transfer Rust Engine)
+echo "=================================================================="
+echo "  ⚡ CONFIGURING HUGGING FACE TURBO ENGINE (hf-transfer)"
+echo "=================================================================="
+$PIP install -U "huggingface_hub[hf_transfer]" hf_transfer
+export HF_HUB_ENABLE_HF_TRANSFER=1
 
-    if [ -f "$dest_file" ]; then
-        echo "✅ [Already Exists] $label"
-    else
-        echo "⏳ Downloading $label..."
-        if command -v aria2c &> /dev/null; then
-            aria2c -x 16 -s 16 -k 1M -c -o "$(basename "$dest_file")" -d "$(dirname "$dest_file")" "$url"
-        else
-            wget -c --show-progress -O "$dest_file" "$url"
+# Locate the best available hf CLI binary
+if [ -f "$HOME/.local/bin/hf" ]; then
+    HF_CMD="$HOME/.local/bin/hf"
+elif command -v hf &> /dev/null; then
+    HF_CMD="hf"
+elif [ -f "$VENV_DIR/bin/hf" ]; then
+    HF_CMD="$VENV_DIR/bin/hf"
+elif [ -f "$VENV_DIR/bin/huggingface-cli" ]; then
+    HF_CMD="$VENV_DIR/bin/huggingface-cli"
+elif command -v huggingface-cli &> /dev/null; then
+    HF_CMD="huggingface-cli"
+else
+    HF_CMD="huggingface-cli"
+fi
+
+download_hf_model() {
+    local repo=$1
+    local repo_path=$2
+    local dest_dir=$3
+    local filename=$4
+
+    mkdir -p "$dest_dir"
+    local final_path="$dest_dir/$filename"
+
+    if [ ! -f "$final_path" ]; then
+        echo "⚡ [HF Turbo] Downloading $filename to $dest_dir/..."
+        $HF_CMD download "$repo" "$repo_path" --local-dir "$dest_dir" || {
+            echo "⚠️ hf download failed for $filename. Retrying with aria2c/wget..."
+            local url_path="${repo_path// /%20}"
+            local direct_url="https://huggingface.co/$repo/resolve/main/$url_path"
+            if command -v aria2c &> /dev/null; then
+                aria2c -x 16 -s 16 -k 1M -c -o "$filename" -d "$dest_dir" "$direct_url"
+            else
+                wget -c --show-progress -O "$final_path" "$direct_url"
+            fi
+        }
+        
+        # Move file if HF nested it into subfolders
+        if [ -f "$dest_dir/$repo_path" ] && [ "$dest_dir/$repo_path" != "$final_path" ]; then
+            mv "$dest_dir/$repo_path" "$final_path"
         fi
-        echo "✅ Finished downloading $label"
+        
+        # Cleanup potential empty folder from nested HF path
+        local top_folder=$(echo "$repo_path" | cut -d'/' -f1)
+        if [ -n "$top_folder" ] && [ "$top_folder" != "$repo_path" ] && [ -d "$dest_dir/$top_folder" ]; then
+            rm -rf "$dest_dir/$top_folder"
+        fi
+        echo "✅ Finished $filename"
+    else
+        echo "✅ [Already Exists] $filename"
     fi
 }
 
-# Ensure aria2 is installed for maximum download speed
-if ! command -v aria2c &> /dev/null; then
-    echo "⚡ Installing aria2 for ultra-fast multi-threaded downloading..."
-    sudo apt update -y && sudo apt install -y aria2 || true
-fi
-
 echo "=================================================================="
-echo "  📦 DOWNLOADING WAN 2.2 14B MODELS & LORAS"
+echo "  📦 DOWNLOADING WAN 2.2 14B MODELS & LORAS (HF TURBO)"
 echo "=================================================================="
 
 # A. Diffusion Models (GGUF Q4_K_S)
-download_file \
-    "https://huggingface.co/QuantStack/Wan2.2-I2V-A14B-GGUF/resolve/main/HighNoise/Wan2.2-I2V-A14B-HighNoise-Q4_K_S.gguf" \
-    "$DIFFUSION_DIR/wan2.2_i2v_high_noise_14B_Q4_K_S.gguf" \
-    "Wan 2.2 I2V 14B High Noise (Q4_K_S GGUF ~7.8GB)"
-
-download_file \
-    "https://huggingface.co/QuantStack/Wan2.2-I2V-A14B-GGUF/resolve/main/LowNoise/Wan2.2-I2V-A14B-LowNoise-Q4_K_S.gguf" \
-    "$DIFFUSION_DIR/wan2.2_i2v_low_noise_14B_Q4_K_S.gguf" \
-    "Wan 2.2 I2V 14B Low Noise (Q4_K_S GGUF ~7.8GB)"
+download_hf_model "QuantStack/Wan2.2-I2V-A14B-GGUF" "HighNoise/Wan2.2-I2V-A14B-HighNoise-Q4_K_S.gguf" "$DIFFUSION_DIR" "wan2.2_i2v_high_noise_14B_Q4_K_S.gguf"
+download_hf_model "QuantStack/Wan2.2-I2V-A14B-GGUF" "LowNoise/Wan2.2-I2V-A14B-LowNoise-Q4_K_S.gguf" "$DIFFUSION_DIR" "wan2.2_i2v_low_noise_14B_Q4_K_S.gguf"
 
 # B. LoRAs (LightX2V 4-Step Distilled)
-download_file \
-    "https://huggingface.co/lightx2v/Wan2.2-Distill-Loras/resolve/main/wan2.2_i2v_A14b_high_noise_lora_rank64_lightx2v_4step_1022.safetensors" \
-    "$LORAS_DIR/wan2.2_i2v_A14b_high_noise_lora_rank64_lightx2v_4step_1022.safetensors" \
-    "LightX2V High Noise 4-Step LoRA"
-
-download_file \
-    "https://huggingface.co/lightx2v/Wan2.2-Distill-Loras/resolve/main/wan2.2_i2v_A14b_low_noise_lora_rank64_lightx2v_4step_1022.safetensors" \
-    "$LORAS_DIR/wan2.2_i2v_A14b_low_noise_lora_rank64_lightx2v_4step_1022.safetensors" \
-    "LightX2V Low Noise 4-Step LoRA"
+download_hf_model "lightx2v/Wan2.2-Distill-Loras" "wan2.2_i2v_A14b_high_noise_lora_rank64_lightx2v_4step_1022.safetensors" "$LORAS_DIR" "wan2.2_i2v_A14b_high_noise_lora_rank64_lightx2v_4step_1022.safetensors"
+download_hf_model "lightx2v/Wan2.2-Distill-Loras" "wan2.2_i2v_A14b_low_noise_lora_rank64_lightx2v_4step_1022.safetensors" "$LORAS_DIR" "wan2.2_i2v_A14b_low_noise_lora_rank64_lightx2v_4step_1022.safetensors"
 
 # C. LoRAs (SVI v2 Pro - Stable Video Infinity)
-download_file \
-    "https://huggingface.co/Kijai/WanVideo_comfy/resolve/main/LoRAs/Stable-Video-Infinity/v2.0/SVI_v2_PRO_Wan2.2-I2V-A14B_HIGH_lora_rank_128_fp16.safetensors" \
-    "$LORAS_DIR/SVI_v2_PRO_Wan2.2-I2V-A14B_HIGH_lora_rank_128_fp16.safetensors" \
-    "SVI v2 Pro High Noise Infinite Video LoRA"
-
-download_file \
-    "https://huggingface.co/Kijai/WanVideo_comfy/resolve/main/LoRAs/Stable-Video-Infinity/v2.0/SVI_v2_PRO_Wan2.2-I2V-A14B_LOW_lora_rank_128_fp16.safetensors" \
-    "$LORAS_DIR/SVI_v2_PRO_Wan2.2-I2V-A14B_LOW_lora_rank_128_fp16.safetensors" \
-    "SVI v2 Pro Low Noise Infinite Video LoRA"
+download_hf_model "Kijai/WanVideo_comfy" "LoRAs/Stable-Video-Infinity/v2.0/SVI_v2_PRO_Wan2.2-I2V-A14B_HIGH_lora_rank_128_fp16.safetensors" "$LORAS_DIR" "SVI_v2_PRO_Wan2.2-I2V-A14B_HIGH_lora_rank_128_fp16.safetensors"
+download_hf_model "Kijai/WanVideo_comfy" "LoRAs/Stable-Video-Infinity/v2.0/SVI_v2_PRO_Wan2.2-I2V-A14B_LOW_lora_rank_128_fp16.safetensors" "$LORAS_DIR" "SVI_v2_PRO_Wan2.2-I2V-A14B_LOW_lora_rank_128_fp16.safetensors"
 
 # D. Text Encoder (UMT5-XXL FP8 Scaled)
-download_file \
-    "https://huggingface.co/Comfy-Org/Wan_2.1_ComfyUI_repackaged/resolve/main/split_files/text_encoders/umt5_xxl_fp8_e4m3fn_scaled.safetensors" \
-    "$TEXT_ENCODER_DIR/umt5_xxl_fp8_e4m3fn_scaled.safetensors" \
-    "UMT5-XXL FP8 Text Encoder (~4.8GB)"
+download_hf_model "Comfy-Org/Wan_2.1_ComfyUI_repackaged" "split_files/text_encoders/umt5_xxl_fp8_e4m3fn_scaled.safetensors" "$TEXT_ENCODER_DIR" "umt5_xxl_fp8_e4m3fn_scaled.safetensors"
 
 # E. VAE
-download_file \
-    "https://huggingface.co/Comfy-Org/Wan_2.1_ComfyUI_repackaged/resolve/main/split_files/vae/wan_2.1_vae.safetensors" \
-    "$VAE_DIR/wan_2.1_vae.safetensors" \
-    "Wan 2.1 / 2.2 VAE"
+download_hf_model "Comfy-Org/Wan_2.1_ComfyUI_repackaged" "split_files/vae/wan_2.1_vae.safetensors" "$VAE_DIR" "wan_2.1_vae.safetensors"
 
 # 5. Copy Workflow to ComfyUI user workflows
 WORKFLOW_SRC="$WORKSPACE/SVI_2_pro_workflow.json"
