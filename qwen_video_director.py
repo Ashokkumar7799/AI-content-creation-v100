@@ -52,8 +52,9 @@ Analyze every second of the model's performance with exact mechanical precision:
 - Secondary Momentum:
   * Hair Physics: Heavy curly hair whipping around shoulders, bouncy inertia following head turns.
   * Clothing Dynamics: Skirt hem swirling outward with pivots, straps shifting over shoulders, fabric stretching and relaxing with movement.
-- Camera Trajectory:
+- Camera Trajectory & Framing Recommendation:
   * Lens & Movement: Slow dolly push-in, orbital tracking around her waist, low-angle looking up for an empowering silhouette, or subtle handheld breathing.
+  * Recommended Framing for Face Quality: When possible, prefer medium shots (waist-up), medium close-ups (chest-up), or seated medium shots where the face remains clear and naturally prominent. Try to avoid overly distant or wide shots where the face is very small in frame, as well as extreme tight close-ups that cut off the outfit.
 
 == 4. INTELLIGENT SCENE SEGMENTATION (MAX 5 SCENES) ==
 - If the video contains hard camera cuts: Split into distinct scenes at each cut point.
@@ -74,10 +75,10 @@ DURATION: [X seconds / Frame range]
 TYPE: [ACTION / DANCE / FASHION STRUT / TALKING]
 
 SCENE 1 KREA2 IMAGE PROMPT:
-[Full Krea2 prompt starting with 'tarastyles, a young woman...' detailing Tara's physical anatomy, exact outfit cuts, fabric texture, starting pose, lighting, Sony A7III 85mm lens, Mandatory Realism Block, Mandatory Negative Block]
+[Full Krea2 prompt starting with 'tarastyles, a young woman...' detailing Tara's physical anatomy, exact outfit cuts, fabric texture, starting pose, lighting, Sony A7III 85mm lens, shot framing (prefer medium/waist-up/chest-up), Mandatory Realism Block, Mandatory Negative Block]
 
-SCENE 1 LTX VIDEO PROMPT:
-[Full LTX prompt starting with 'tarastyles, a young woman...' describing the exact chronological actions, footwork, hip sway, body curve kinetics, fabric/hair momentum, and camera movement. Concludes with 'Cinematic film grain, 24fps natural motion, real human body movement, weight and momentum in motion, photorealistic.']
+SCENE 1 LTX / WAN VIDEO PROMPT:
+[Full video prompt starting with 'tarastyles, a young woman...' describing the shot framing, exact chronological actions, footwork, hip sway, body curve kinetics, fabric/hair momentum, and camera movement. Concludes with 'Cinematic film grain, 24fps natural motion, real human body movement, weight and momentum in motion, photorealistic.']
 
 CONNECTION TO NEXT:
 [How the final pose and body momentum of Scene 1 directly carry into the first frame of Scene 2]
