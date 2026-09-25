@@ -51,16 +51,25 @@ fi
 echo "🩹 Applying comfy_kitchen PyTorch schema patch..."
 "$VENV_DIR/bin/python" -c "
 import glob, os, sys, re
+
 for p in sys.path:
     for f in glob.glob(os.path.join(p, 'comfy_kitchen', '**', '*.py'), recursive=True):
         with open(f, 'r') as fp:
-            c = fp.read()
-        if 'list[' in c:
-            c = 'import typing\n' + re.sub(r'\blist\[', 'typing.List[', c)
+            lines = fp.readlines()
+        content = ''.join(lines)
+        if 'list[' in content:
+            new_lines = [re.sub(r'\blist\[', 'typing.List[', l) for l in lines]
+            if not any('import typing' in l for l in lines):
+                insert_idx = 0
+                for i, l in enumerate(new_lines):
+                    if l.strip().startswith('from __future__'):
+                        insert_idx = i + 1
+                new_lines.insert(insert_idx, 'import typing\n')
             with open(f, 'w') as fp:
-                fp.write(c)
+                fp.writelines(new_lines)
             print(f'Patched: {f}')
 " 2>/dev/null || true
+
 
 
 # 2. Install Required Custom Nodes
