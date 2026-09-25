@@ -34,8 +34,8 @@ if [ ! -f "$VENV_DIR/bin/pip" ]; then
     "$VENV_DIR/bin/python" -m ensurepip --upgrade 2>/dev/null || curl -sS https://bootstrap.pypa.io/get-pip.py | "$VENV_DIR/bin/python"
 fi
 
-echo "⚙️ Ensuring pip, uv, and wheel are up to date..."
-$PIP install --upgrade pip uv setuptools wheel
+echo "⚙️ Ensuring pip, uv, wheel, and diffusers are installed..."
+$PIP install --upgrade pip uv setuptools wheel diffusers
 
 if ! "$VENV_DIR/bin/python" -c "import torch" 2>/dev/null; then
     echo "⚙️ Installing PyTorch (CUDA 12.4 for V100)..."
