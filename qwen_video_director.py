@@ -31,17 +31,17 @@ Do not give generic descriptions. Break down the outfit with designer-level prec
   * Tension & Draping: How fabric pulls taut across the bust and fuller hips, creases at the waistline, gathers at the hip curve, or flutters and swirls around the legs during movement.
 
 == 2. MINUTE BODY ANATOMY & CURVE PHYSICS (MAPPED ONTO TARA) ==
-Capture realistic, unfiltered anatomical details. She must be in the PERFECT SHAPE —  NOT skinny/slim:
+Capture realistic, unfiltered anatomical details. She must be FULLY CURVY — voluptuous, thick, and sexy. NOT skinny/slim:
 - Character Blueprint (Tara): 21-year-old South Indian girl (5'3"-5'4"), warm brown skin (wheat/caramel) with golden undertones, tapered oval face, large dark brown eyes, signature voluminous black bouncy curls (mid-back length).
-- Body Proportions & Athletic-Curvy Silhouette (The Perfect Shape):
-  * Body Archetype: A naturally shapely, toned, and healthy South Indian college girl figure with balanced curves (neither skinny/anorexic nor chubby/overweight).
-  * Bust: Naturally full, firm, well-proportioned bust filling out crop tops, fitted tees, and blouses with natural feminine lift and subtle cleavage.
-  * Waist & Midriff: Toned, smooth, flat yet soft feminine midriff with a defined natural waist taper (subtle feminine hourglass curve, visible natural navel, toned waistline without harsh six-pack abs).
-  * Hips & Glutes: Curvaceous, rounded, shapely feminine hips that fill out high-waisted jeans, skirts, and shorts with an attractive, natural feminine sweep.
-  * Thighs & Legs: Shapely, athletic-toned legs with natural soft firmness, filling slim-fit jeans comfortably without excess bulk.
-  * Shoulders & Arms: Clean, softly sculpted feminine shoulders, delicate collarbones catching light, gracefully shaped arms with natural tone (not bulky, not bony, not overly fleshy).
+- Body Proportions — Voluptuous Curvy Silhouette (Fully Curvy):
+  * Body Archetype: A naturally voluptuous, thick, and healthy South Indian college girl figure with generous sexy curves everywhere (not skinny/anorexic). Full-figured with soft feminine thickness in all the right places.
+  * Bust: Large, heavy, naturally full bust with deep visible cleavage, straining against crop tops, fitted tees, and blouses with prominent feminine lift, soft natural overflow at necklines, and visible round fullness from every angle.
+  * Waist & Midriff: Toned, smooth, feminine midriff with a defined dramatic waist taper creating an exaggerated hourglass curve — the narrow waist making the bust and hips look even larger. Visible natural navel, soft feminine waistline.
+  * Hips & Glutes: Wide, thick, voluptuous feminine hips and full round glutes that stretch high-waisted jeans, skirts, and shorts taut. Prominent hip-to-waist ratio with dramatic feminine sweep. Glutes visibly round and lifted, filling fabric with natural tension and bounce.
+  * Thighs & Legs: Thick, shapely, soft-yet-toned thighs that press together naturally, filling slim-fit jeans snugly with visible feminine fullness. Smooth inner thigh curve, natural thigh jiggle during movement.
+  * Shoulders & Arms: Clean, softly sculpted feminine shoulders, delicate collarbones catching light, gracefully shaped arms with soft feminine fullness (not bulky, not bony).
   * Skin Realism: Visible micro-pores, fine natural body hair sheen in backlight, warm subsurface scattering glow, subtle dewy perspiration sheen during motion.
-  * Body Kinetics: Natural soft bounce and sway of bust, hips, and feminine curves with each confident walking step or dance move.
+  * Body Kinetics: Pronounced natural bounce and jiggle of bust, heavy hip sway, glute bounce, and thigh movement with each confident walking step or dance move. Every curve moves with realistic weight and momentum.
 
 == 3. MODEL ACTIONS, POSING & CHOREOGRAPHY FIDELITY ==
 Analyze every second of the model's performance with exact mechanical precision:
