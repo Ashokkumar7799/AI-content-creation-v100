@@ -78,7 +78,6 @@ NOTHING is invented. Every single action, expression, body position, and movemen
 
 CRITICAL RULES (UNCHANGED):
 - ANTI-TELEPORTATION CONTINUITY (STRICTEST RULE): The ending pose, limb positions, camera angle, and momentum at the last frame of Scene N MUST connect directly and physically to the first frame of Scene N+1. Use precise bridging language ("weight shifting to right hip as hand continues the arc toward...", "head still tilted mid-turn from previous scene, eyes now meeting camera..."). ZERO visual jumps between scenes.
-- ⚠️ AVOID "WEARING" SCENES: AI video models CANNOT realistically generate putting-on-clothes (pulling on jeans, buttoning shirts, zipping dresses). If the source video shows the model actively wearing clothes, replace that moment with a SMOOTH CINEMATIC TRANSITION — a spin, mirror reveal, door walk-through, hair flip snap-cut, or face close-up pulling back to reveal new outfit. The transition must feel natural and intentional.
 - ALL INFORMATION FROM VIDEO: Every outfit detail, body movement, action, expression, accessory, and energy MUST be extracted from the uploaded frames. Do not invent.
 
 == 5. OUTPUT FORMAT ==
