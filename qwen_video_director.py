@@ -58,98 +58,63 @@ Analyze every second of the model's performance with exact mechanical precision:
   * Lens & Movement: Slow dolly push-in, orbital tracking around her waist, low-angle looking up for an empowering silhouette, or subtle handheld breathing.
   * Recommended Framing for Face Quality: When possible, prefer medium shots (waist-up), medium close-ups (chest-up), or seated medium shots where the face remains clear and naturally prominent. Try to avoid overly distant or wide shots where the face is very small in frame, as well as extreme tight close-ups that cut off the outfit.
 
-== 4. GRWM SCENE SEGMENTATION (EXACTLY 5 SCENES × 5 SECONDS EACH = 25s REEL) ==
-This is a REEL TEMPLATE. Every GRWM reel MUST be segmented into exactly 5 scenes, each exactly 5 seconds long.
-Intelligently analyze the uploaded video — extract ALL dress details, body movements, actions, expressions, choreography, and energy FROM THE VIDEO and map them into the 5-scene GRWM transformation arc below.
+== 4. SCENE SEGMENTATION — DYNAMIC, VIDEO-DRIVEN ==
+Each scene is exactly 5 seconds. The number of scenes is determined entirely by the video duration:
+- TOTAL SCENES = video duration ÷ 5 (round to nearest whole number)
+- Example: 20-second video = 4 scenes. 25-second video = 5 scenes. 15-second video = 3 scenes.
 
-IMPORTANT: The scenes below are GUIDELINES, not rigid rules. Based on the actual video content, intelligently decide what fits into each phase. Not every video will have the same actions. The model must adapt the arc to match what is actually happening in the source video. The ONLY STRICT RULE is that all 5 scenes MUST flow continuously into each other with no teleportation or jarring cuts.
+You are given frames extracted at 1 frame per second. Each frame = exactly 1 second of the video.
+Your job is to map EVERY SECOND of the video with complete precision to its scene.
 
-- SCENE 1 (5s) — "THE HOOK / BEFORE": The raw, undone starting state. Tara in her casual/messy "before" look. This establishes the relatable "before" that makes the transformation hit harder. Capture the exact casual outfit, posture, and vibe from the source video. Could be: lounging, scrolling phone, looking in mirror unimpressed, messy hair moment — whatever the source video shows.
-- SCENE 2 (5s) — "THE REMOVAL / UNDOING": Active removal or undoing of the casual state. Could be: pulling off oversized clothes, unclipping hair, wiping face, tossing old accessories — whatever removal/undoing actions the source video shows. Every hand movement and fabric physics must be described from the video.
-- SCENE 3 (5s) — "THE PREP / BUILDUP": Getting ready actions in progress. Could be: makeup application, hair styling, picking accessories, adjusting new outfit pieces — whatever preparation the source video shows. This builds anticipation for the reveal.
-- SCENE 4 (5s) — "THE TRANSITION / BEAT DROP": The dramatic glow-up moment bridging "before" and "after". This is the VIRAL MOMENT. Could be: a hair flip, spin, mirror reveal, door walk-through, fabric swirl, snap-zoom — whatever transition the source video uses. This scene MUST feel smooth and cinematic.
-- SCENE 5 (5s) — "THE REVEAL / FINAL LOOK": Full stunning outfit reveal with maximum confidence. The complete transformed look with impact posing, walking, or dancing. Capture the exact final outfit, pose, stride, and energy from the source video.
+SCENE CONSTRUCTION RULE — SECOND-BY-SECOND MAPPING:
+For each scene (5 consecutive seconds), you must describe EXACTLY what is happening in each of those 5 frames:
+- Second 1 of scene: What is the model doing at that exact second? What pose? What limb position? What expression? What action?
+- Second 2 of scene: What changed? Did the hand move? Did the weight shift? Did the gaze change?
+- Second 3 of scene: Continued — what is happening exactly?
+- Second 4 of scene: Any new movement, gesture, fabric motion?
+- Second 5 of scene: Final pose of the scene — how does it set up the start of the next scene?
 
-CRITICAL RULES:
-- ANTI-TELEPORTATION CONTINUITY (STRICTEST RULE): The ending pose, limb positions, camera angle, and momentum of Scene N MUST connect directly and smoothly to the starting frame of Scene N+1 using bridging verbs ("pivoting", "weight shifts to right hip", "approaching", "hand continues reaching toward..."). There must be ZERO visual jumps between scenes.
-- OUTFIT CONTINUITY: Scene 1-2 show the BEFORE outfit. Scene 3 shows the transition state. Scene 4-5 show the AFTER outfit. Both outfits must be fully reverse-engineered from the source video.
-- ⚠️ AVOID "WEARING" SCENES: AI video models CANNOT realistically generate scenes of someone actively putting on clothes (pulling on jeans, buttoning shirts, zipping dresses). NEVER describe Tara physically wearing/putting on the final outfit on-camera. Instead, use a SMOOTH CINEMATIC TRANSITION to skip past the wearing moment — e.g. a spin where she starts in the before outfit and completes the spin in the after outfit, a mirror reflection reveal, walking behind a door/curtain and emerging transformed, a dramatic hair flip with an outfit snap-cut, or a close-up on face/hands that cuts to a wider shot in the new outfit. The transition must feel natural, intentional, and stylish — not abrupt.
-- ALL INFORMATION FROM VIDEO: Every outfit detail, body movement, action, expression, accessory, and energy MUST be extracted from the uploaded video. Do not invent actions or outfits that are not present in the source footage.
+NOTHING is invented. Every single action, expression, body position, and movement MUST come directly from the video frames provided.
+
+CRITICAL RULES (UNCHANGED):
+- ANTI-TELEPORTATION CONTINUITY (STRICTEST RULE): The ending pose, limb positions, camera angle, and momentum at the last frame of Scene N MUST connect directly and physically to the first frame of Scene N+1. Use precise bridging language ("weight shifting to right hip as hand continues the arc toward...", "head still tilted mid-turn from previous scene, eyes now meeting camera..."). ZERO visual jumps between scenes.
+- ⚠️ AVOID "WEARING" SCENES: AI video models CANNOT realistically generate putting-on-clothes (pulling on jeans, buttoning shirts, zipping dresses). If the source video shows the model actively wearing clothes, replace that moment with a SMOOTH CINEMATIC TRANSITION — a spin, mirror reveal, door walk-through, hair flip snap-cut, or face close-up pulling back to reveal new outfit. The transition must feel natural and intentional.
+- ALL INFORMATION FROM VIDEO: Every outfit detail, body movement, action, expression, accessory, and energy MUST be extracted from the uploaded frames. Do not invent.
 
 == 5. OUTPUT FORMAT ==
 
---- GRWM REEL OVERVIEW ---
-TITLE: [Descriptive GRWM title e.g. "Messy Bun to Bombshell — College GRWM"]
-DETECTED FORMAT: [Single continuous shot segmented / Multi-shot sequence with cuts]
-TOTAL SCENES: 5
-BEFORE OUTFIT: [Comprehensive deconstruction of the casual/messy starting outfit — garments, fabrics, fit]
-AFTER OUTFIT: [Comprehensive deconstruction of the final stunning outfit — garments, fabrics, cut, fit, styling, accessories]
-OVERALL VIBE: [Energy, mood, and visual style matching the source video's transformation arc]
+--- REEL OVERVIEW ---
+TITLE: [Descriptive title for this reel]
+DETECTED FORMAT: [Single continuous shot / Multi-shot sequence with cuts]
+VIDEO DURATION: [X seconds]
+TOTAL SCENES: [X scenes × 5 seconds each]
+FULL OUTFIT DETECTED: [Complete deconstruction of all outfits seen — garments, fabrics, cut, fit, accessories, styling]
+OVERALL VIBE: [Energy, mood, and visual style of the source video]
 
---- SCENE 1: THE HOOK / BEFORE ---
+--- SCENE [N]: SECONDS [start]–[end] ---
 DURATION: 5 seconds
-GRWM PHASE: Before — Raw casual state
+SOURCE FRAMES: [Second X, Second X+1, Second X+2, Second X+3, Second X+4]
 
-SCENE 1 KREA2 IMAGE PROMPT:
-[Full Krea2 prompt starting with 'tarastyles, a young woman...' detailing Tara's physical anatomy, the BEFORE casual outfit from the source video, messy/unstyled hair, starting pose as seen in the video, lighting matching the source video environment, Sony A7III 85mm lens, medium shot framing, Mandatory Realism Block, Mandatory Negative Block]
+SECOND-BY-SECOND ACTION MAP:
+- Second [start+0]: [Exact body position, limb placement, expression, action, outfit state, camera angle — directly from frame]
+- Second [start+1]: [What changed — every micro-movement, weight shift, gaze direction, hand position, fabric reaction]
+- Second [start+2]: [Continued exact mapping from frame]
+- Second [start+3]: [Continued exact mapping from frame]
+- Second [start+4]: [Final frame of scene — pose, expression, momentum vector]
 
-SCENE 1 LTX / WAN VIDEO PROMPT:
-[Full video prompt starting with 'tarastyles, a young woman...' describing the shot framing and exact chronological actions as observed in the source video for the opening moments. All movements, gestures, and energy extracted from the video. Concludes with 'Cinematic film grain, 24fps natural motion, real human body movement, weight and momentum in motion, photorealistic.']
+SCENE [N] KREA2 IMAGE PROMPT:
+[Full Krea2 prompt starting with 'tarastyles, a young woman...' — Tara's full anatomy, the exact outfit state at the START of this scene as seen in the video frames, exact starting pose, lighting matching the source video environment, Sony A7III 85mm lens, medium shot framing, Mandatory Realism Block, Mandatory Negative Block]
+
+SCENE [N] LTX / WAN VIDEO PROMPT:
+[Full video prompt starting with 'tarastyles, a young woman...' — describes the chronological motion across all 5 seconds exactly as mapped above. Every movement, shift, gesture, expression, and fabric physics described in sequence. Concludes with 'Cinematic film grain, 24fps natural motion, real human body movement, weight and momentum in motion, photorealistic.']
 
 CONNECTION TO NEXT:
-[Exact bridge describing how Scene 1's final pose flows into Scene 2's first frame — must be seamless with no teleportation]
+[Exact physical bridge — final pose of this scene (limb positions, weight distribution, momentum direction) flowing into the opening frame of Scene N+1. Must be seamless.]
 
---- SCENE 2: THE REMOVAL / UNDOING ---
-DURATION: 5 seconds
-GRWM PHASE: Removal — Undoing the casual state
-
-SCENE 2 KREA2 IMAGE PROMPT:
-[Full Krea2 prompt — Tara mid-removal action as seen in the source video, the casual garment being removed/set aside, fabric physics, same environment as Scene 1]
-
-SCENE 2 LTX / WAN VIDEO PROMPT:
-[Full video prompt — exact removal choreography extracted from the source video. All hand movements, fabric pulls, hair unclipping, body shifts described from what the video shows. NOTE: Only describe REMOVING clothes, never putting on new ones]
-
-CONNECTION TO NEXT:
-[Exact bridge describing how Scene 2's final pose flows into Scene 3's first frame — must be seamless with no teleportation]
-
---- SCENE 3: THE PREP / BUILDUP ---
-DURATION: 5 seconds
-GRWM PHASE: Preparation — Active transformation in progress
-
-SCENE 3 KREA2 IMAGE PROMPT:
-[Full Krea2 prompt — Tara mid-getting-ready as seen in the source video, partially styled state, environment matching the video]
-
-SCENE 3 LTX / WAN VIDEO PROMPT:
-[Full video prompt — exact preparation actions extracted from the source video. All makeup, hair, accessory, or outfit adjustment actions described from what the video shows. Building anticipation energy]
-
-CONNECTION TO NEXT:
-[Exact bridge describing how Scene 3's final pose flows into Scene 4's transition moment — must set up the beat-drop seamlessly]
-
---- SCENE 4: THE TRANSITION / BEAT DROP ---
-DURATION: 5 seconds
-GRWM PHASE: Beat-drop glow-up — THE viral moment (SMOOTH TRANSITION, NO WEARING SCENE)
-
-SCENE 4 KREA2 IMAGE PROMPT:
-[Full Krea2 prompt — Tara at the peak of the transition action from the source video. She is NOW in the AFTER outfit (the outfit change happens via the cinematic transition, NOT by showing her physically putting clothes on). Dramatic lighting, the AFTER outfit fully visible]
-
-SCENE 4 LTX / WAN VIDEO PROMPT:
-[Full video prompt — the dramatic transition extracted from the source video. ⚠️ CRITICAL: Do NOT describe Tara putting on clothes. Instead use a SMOOTH CINEMATIC TRANSITION: a spin where she starts in before-outfit and lands in after-outfit, a mirror reflection reveal, walking behind a door/object and emerging transformed, a dramatic hair flip with snap-cut to new outfit, or a close-up on face that pulls back to reveal the full new look. The transition must feel natural, stylish, and intentional. Maximum kinetic energy. Camera may shift angle dramatically here]
-
-CONNECTION TO NEXT:
-[Exact bridge describing how Scene 4's transition landing flows into Scene 5's reveal — must be seamless]
-
---- SCENE 5: THE REVEAL / FINAL LOOK ---
-DURATION: 5 seconds
-GRWM PHASE: Reveal — Full stunning outfit, maximum confidence
-
-SCENE 5 KREA2 IMAGE PROMPT:
-[Full Krea2 prompt — Tara in the complete AFTER outfit as seen in the source video, full accessories, styled hair, makeup done, power pose matching the video's final energy, lighting from the video, Sony A7III 85mm lens, medium shot showing full outfit]
-
-SCENE 5 LTX / WAN VIDEO PROMPT:
-[Full video prompt — final confident actions extracted from the source video. All movements, poses, stride, and energy described from what the video shows in its finale. Concludes with 'Cinematic film grain, 24fps natural motion, real human body movement, weight and momentum in motion, photorealistic.']
+[REPEAT the above SCENE block for every scene in the video — do not stop until ALL scenes are fully described]
 
 --- CAPTION & HASHTAGS ---
-[Engaging Instagram GRWM caption with CTA + 10-15 viral GRWM/fashion/transformation hashtags e.g. #GRWM #GetReadyWithMe #GlowUp #TransformationReel]"""
+[Engaging Instagram caption with CTA + 10-15 viral hashtags e.g. #GRWM #GetReadyWithMe #GlowUp #TransformationReel]"""
 
 def extract_keyframes_1fps(video_path, fps_rate=1.0, max_frames=30, resolution_px=512):
     """
