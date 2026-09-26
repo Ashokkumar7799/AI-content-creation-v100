@@ -59,18 +59,23 @@ Analyze every second of the model's performance with exact mechanical precision:
   * Lens & Movement: Slow dolly push-in, orbital tracking around her waist, low-angle looking up for an empowering silhouette, or subtle handheld breathing.
   * Recommended Framing for Face Quality: When possible, prefer medium shots (waist-up), medium close-ups (chest-up), or seated medium shots where the face remains clear and naturally prominent. Try to avoid overly distant or wide shots where the face is very small in frame, as well as extreme tight close-ups that cut off the outfit.
 
-== 4. GRWM SCENE SEGMENTATION (EXACTLY 5 SCENES) ==
-Every GRWM reel MUST be segmented into exactly 5 scenes following this transformation arc.
-Reverse-engineer ALL movements, dress changes, and actions FROM THE UPLOADED VIDEO and map them into these 5 phases:
+== 4. GRWM SCENE SEGMENTATION (EXACTLY 5 SCENES × 5 SECONDS EACH = 25s REEL) ==
+This is a REEL TEMPLATE. Every GRWM reel MUST be segmented into exactly 5 scenes, each exactly 5 seconds long.
+Intelligently analyze the uploaded video — extract ALL dress details, body movements, actions, expressions, choreography, and energy FROM THE VIDEO and map them into the 5-scene GRWM transformation arc below.
 
-- SCENE 1 — "THE HOOK / BEFORE" (~3s): The raw, undone starting state. Tara in her casual/messy "before" look (oversized tee, messy bun, bare face, sleepy eyes, lounging). This establishes the relatable "before" that makes the transformation hit harder. Capture the exact casual outfit, lazy posture, and unpolished vibe from the source video.
-- SCENE 2 — "THE REMOVAL" (~3s): Active removal/stripping of the casual layer. Pulling off the oversized shirt, unclipping hair, tossing away old clothes. Every hand movement, fabric pull, and body shift must be described with exact choreographic precision from the source video.
-- SCENE 3 — "THE PREP / BUILDUP" (~3s): Getting ready in action. Applying makeup (lipstick application, mascara, eyeliner), styling hair (curling, brushing, flipping), picking accessories (earrings, bangles, chain). Close-up worthy transformation-in-progress moments from the source video.
-- SCENE 4 — "THE TRANSITION / BEAT DROP" (~2-3s): The single dramatic glow-up moment that bridges "before" and "after". A hair flip, spin, mirror reveal, door walk-through, or snap-cut outfit swap timed to the music beat drop. This is the VIRAL MOMENT — describe the exact action from the source video.
-- SCENE 5 — "THE REVEAL / FINAL LOOK" (~3-5s): Full stunning outfit reveal. Maximum confidence mode — Tara in the complete look with impact posing, walking, or dancing. This is what makes viewers save/share the reel. Capture the exact final outfit, pose, stride, and energy from the source video.
+IMPORTANT: The scenes below are GUIDELINES, not rigid rules. Based on the actual video content, intelligently decide what fits into each phase. Not every video will have the same actions. The model must adapt the arc to match what is actually happening in the source video. The ONLY STRICT RULE is that all 5 scenes MUST flow continuously into each other with no teleportation or jarring cuts.
 
-- ANTI-TELEPORTATION CONTINUITY: The ending pose, limb positions, and momentum of Scene N MUST connect directly to the starting frame of Scene N+1 using bridging verbs ("pivoting", "weight shifts to right hip", "approaching").
-- OUTFIT CONTINUITY: Scene 1-2 must show the BEFORE outfit. Scene 3 shows the transition state. Scene 4-5 must show the AFTER outfit. Both outfits must be fully reverse-engineered from the source video.
+- SCENE 1 (5s) — "THE HOOK / BEFORE": The raw, undone starting state. Tara in her casual/messy "before" look. This establishes the relatable "before" that makes the transformation hit harder. Capture the exact casual outfit, posture, and vibe from the source video. Could be: lounging, scrolling phone, looking in mirror unimpressed, messy hair moment — whatever the source video shows.
+- SCENE 2 (5s) — "THE REMOVAL / UNDOING": Active removal or undoing of the casual state. Could be: pulling off oversized clothes, unclipping hair, wiping face, tossing old accessories — whatever removal/undoing actions the source video shows. Every hand movement and fabric physics must be described from the video.
+- SCENE 3 (5s) — "THE PREP / BUILDUP": Getting ready actions in progress. Could be: makeup application, hair styling, picking accessories, adjusting new outfit pieces — whatever preparation the source video shows. This builds anticipation for the reveal.
+- SCENE 4 (5s) — "THE TRANSITION / BEAT DROP": The dramatic glow-up moment bridging "before" and "after". This is the VIRAL MOMENT. Could be: a hair flip, spin, mirror reveal, door walk-through, fabric swirl, snap-zoom — whatever transition the source video uses. This scene MUST feel smooth and cinematic.
+- SCENE 5 (5s) — "THE REVEAL / FINAL LOOK": Full stunning outfit reveal with maximum confidence. The complete transformed look with impact posing, walking, or dancing. Capture the exact final outfit, pose, stride, and energy from the source video.
+
+CRITICAL RULES:
+- ANTI-TELEPORTATION CONTINUITY (STRICTEST RULE): The ending pose, limb positions, camera angle, and momentum of Scene N MUST connect directly and smoothly to the starting frame of Scene N+1 using bridging verbs ("pivoting", "weight shifts to right hip", "approaching", "hand continues reaching toward..."). There must be ZERO visual jumps between scenes.
+- OUTFIT CONTINUITY: Scene 1-2 show the BEFORE outfit. Scene 3 shows the transition state. Scene 4-5 show the AFTER outfit. Both outfits must be fully reverse-engineered from the source video.
+- ⚠️ AVOID "WEARING" SCENES: AI video models CANNOT realistically generate scenes of someone actively putting on clothes (pulling on jeans, buttoning shirts, zipping dresses). NEVER describe Tara physically wearing/putting on the final outfit on-camera. Instead, use a SMOOTH CINEMATIC TRANSITION to skip past the wearing moment — e.g. a spin where she starts in the before outfit and completes the spin in the after outfit, a mirror reflection reveal, walking behind a door/curtain and emerging transformed, a dramatic hair flip with an outfit snap-cut, or a close-up on face/hands that cuts to a wider shot in the new outfit. The transition must feel natural, intentional, and stylish — not abrupt.
+- ALL INFORMATION FROM VIDEO: Every outfit detail, body movement, action, expression, accessory, and energy MUST be extracted from the uploaded video. Do not invent actions or outfits that are not present in the source footage.
 
 == 5. OUTPUT FORMAT ==
 
@@ -83,96 +88,96 @@ AFTER OUTFIT: [Comprehensive deconstruction of the final stunning outfit — gar
 OVERALL VIBE & MUSIC: [BPM, genre, rhythm matching the movement, beat-drop timestamp for Scene 4]
 
 --- SCENE 1: THE HOOK / BEFORE ---
-DURATION: [X seconds / Frame range]
+DURATION: 5 seconds
 GRWM PHASE: Before — Raw casual state
 
 SCENE 1 KREA2 IMAGE PROMPT:
-[Full Krea2 prompt starting with 'tarastyles, a young woman...' detailing Tara's physical anatomy, the BEFORE casual outfit, messy hair, no-makeup face, starting pose, soft bedroom/bathroom morning lighting, Sony A7III 85mm lens, medium shot framing, Mandatory Realism Block, Mandatory Negative Block]
+[Full Krea2 prompt starting with 'tarastyles, a young woman...' detailing Tara's physical anatomy, the BEFORE casual outfit from the source video, messy/unstyled hair, starting pose as seen in the video, lighting matching the source video environment, Sony A7III 85mm lens, medium shot framing, Mandatory Realism Block, Mandatory Negative Block]
 
 SCENE 1 LTX / WAN VIDEO PROMPT:
-[Full video prompt starting with 'tarastyles, a young woman...' describing the shot framing, exact chronological actions (yawning, stretching, looking at mirror, touching messy hair), body movement, and camera movement. Concludes with 'Cinematic film grain, 24fps natural motion, real human body movement, weight and momentum in motion, photorealistic.']
+[Full video prompt starting with 'tarastyles, a young woman...' describing the shot framing and exact chronological actions as observed in the source video for the opening moments. All movements, gestures, and energy extracted from the video. Concludes with 'Cinematic film grain, 24fps natural motion, real human body movement, weight and momentum in motion, photorealistic.']
 
 CONNECTION TO NEXT:
-[How the final pose and body momentum of Scene 1 directly carry into the first frame of Scene 2 — e.g. "hands reach for the hem of the oversized tee, beginning to pull upward"]
+[Exact bridge describing how Scene 1's final pose flows into Scene 2's first frame — must be seamless with no teleportation]
 
 SCENE 1 AUDIO:
 Telugu: "[Telugu script]"
 Romanized: "[Romanized Telugu]"
 English: "[English translation]"
-SFX & Music Cue: [Soft morning ambient, alarm sound, lo-fi intro beat]
+SFX & Music Cue: [Music/SFX matching the video's opening energy]
 
---- SCENE 2: THE REMOVAL ---
-DURATION: [X seconds / Frame range]
-GRWM PHASE: Removal — Stripping away casual layer
+--- SCENE 2: THE REMOVAL / UNDOING ---
+DURATION: 5 seconds
+GRWM PHASE: Removal — Undoing the casual state
 
 SCENE 2 KREA2 IMAGE PROMPT:
-[Full Krea2 prompt — Tara mid-removal action, the casual garment being pulled off/aside, underlying outfit beginning to show, same lighting as Scene 1]
+[Full Krea2 prompt — Tara mid-removal action as seen in the source video, the casual garment being removed/set aside, fabric physics, same environment as Scene 1]
 
 SCENE 2 LTX / WAN VIDEO PROMPT:
-[Full video prompt — exact removal choreography: pulling off shirt, unclipping hair, tossing garment, fabric physics of clothes being removed, hair falling down]
+[Full video prompt — exact removal choreography extracted from the source video. All hand movements, fabric pulls, hair unclipping, body shifts described from what the video shows. NOTE: Only describe REMOVING clothes, never putting on new ones]
 
 CONNECTION TO NEXT:
-[Bridge to Scene 3 — e.g. "tosses the oversized tee aside, turns to face the mirror, reaches for the makeup pouch"]
+[Exact bridge describing how Scene 2's final pose flows into Scene 3's first frame — must be seamless with no teleportation]
 
 SCENE 2 AUDIO:
 Telugu: "[Telugu script]"
 Romanized: "[Romanized Telugu]"
 English: "[English translation]"
-SFX & Music Cue: [Fabric whoosh, hair clip snap, music building]
+SFX & Music Cue: [SFX matching the removal actions from the video, music building]
 
 --- SCENE 3: THE PREP / BUILDUP ---
-DURATION: [X seconds / Frame range]
+DURATION: 5 seconds
 GRWM PHASE: Preparation — Active transformation in progress
 
 SCENE 3 KREA2 IMAGE PROMPT:
-[Full Krea2 prompt — Tara mid-getting-ready, partially styled, applying makeup or adjusting outfit, bathroom/vanity mirror setting]
+[Full Krea2 prompt — Tara mid-getting-ready as seen in the source video, partially styled state, environment matching the video]
 
 SCENE 3 LTX / WAN VIDEO PROMPT:
-[Full video prompt — exact prep actions: lipstick glide, mascara application, hair curling/flipping, earring insertion, checking reflection, building confidence expression]
+[Full video prompt — exact preparation actions extracted from the source video. All makeup, hair, accessory, or outfit adjustment actions described from what the video shows. Building anticipation energy]
 
 CONNECTION TO NEXT:
-[Bridge to Scene 4 — e.g. "sets down the lipstick, takes a breath, weight shifts back preparing for the dramatic spin"]
+[Exact bridge describing how Scene 3's final pose flows into Scene 4's transition moment — must set up the beat-drop seamlessly]
 
 SCENE 3 AUDIO:
 Telugu: "[Telugu script]"
 Romanized: "[Romanized Telugu]"
 English: "[English translation]"
-SFX & Music Cue: [Music tempo rising, makeup clicks, jewelry clinks, pre-drop tension build]
+SFX & Music Cue: [Music tempo rising, pre-drop tension build matching the video's energy]
 
 --- SCENE 4: THE TRANSITION / BEAT DROP ---
-DURATION: [X seconds / Frame range]
-GRWM PHASE: Beat-drop glow-up — THE viral moment
+DURATION: 5 seconds
+GRWM PHASE: Beat-drop glow-up — THE viral moment (SMOOTH TRANSITION, NO WEARING SCENE)
 
 SCENE 4 KREA2 IMAGE PROMPT:
-[Full Krea2 prompt — Tara at the exact peak of the transition action (mid-hair-flip, mid-spin, mid-door-walk-through), dramatic lighting shift, the AFTER outfit now fully visible]
+[Full Krea2 prompt — Tara at the peak of the transition action from the source video. She is NOW in the AFTER outfit (the outfit change happens via the cinematic transition, NOT by showing her physically putting clothes on). Dramatic lighting, the AFTER outfit fully visible]
 
 SCENE 4 LTX / WAN VIDEO PROMPT:
-[Full video prompt — the single dramatic transition: hair flip with curls whipping, full-body spin, confident stride through doorway, snap-zoom, fabric swirl. Maximum kinetic energy. Camera may shift angle dramatically here]
+[Full video prompt — the dramatic transition extracted from the source video. ⚠️ CRITICAL: Do NOT describe Tara putting on clothes. Instead use a SMOOTH CINEMATIC TRANSITION: a spin where she starts in before-outfit and lands in after-outfit, a mirror reflection reveal, walking behind a door/object and emerging transformed, a dramatic hair flip with snap-cut to new outfit, or a close-up on face that pulls back to reveal the full new look. The transition must feel natural, stylish, and intentional. Maximum kinetic energy. Camera may shift angle dramatically here]
 
 CONNECTION TO NEXT:
-[Bridge to Scene 5 — e.g. "completes the spin, lands facing camera with full outfit visible, confident smile forming"]
+[Exact bridge describing how Scene 4's transition landing flows into Scene 5's reveal — must be seamless]
 
 SCENE 4 AUDIO:
 Telugu: "[Telugu script]"
 Romanized: "[Romanized Telugu]"
 English: "[English translation]"
-SFX & Music Cue: [BEAT DROP, bass hit, dramatic whoosh, hair swish sound]
+SFX & Music Cue: [BEAT DROP, bass hit, dramatic whoosh matching the transition moment]
 
 --- SCENE 5: THE REVEAL / FINAL LOOK ---
-DURATION: [X seconds / Frame range]
+DURATION: 5 seconds
 GRWM PHASE: Reveal — Full stunning outfit, maximum confidence
 
 SCENE 5 KREA2 IMAGE PROMPT:
-[Full Krea2 prompt — Tara in the complete AFTER outfit, full accessories, styled hair, makeup done, power pose, upgraded lighting (golden hour/studio), Sony A7III 85mm lens, medium shot showing full outfit]
+[Full Krea2 prompt — Tara in the complete AFTER outfit as seen in the source video, full accessories, styled hair, makeup done, power pose matching the video's final energy, lighting from the video, Sony A7III 85mm lens, medium shot showing full outfit]
 
 SCENE 5 LTX / WAN VIDEO PROMPT:
-[Full video prompt — final confident actions: catwalk stride, hip sway, outfit adjustment, direct camera eye contact with smirk, slow turn showing outfit from all angles, ending pose. Concludes with 'Cinematic film grain, 24fps natural motion, real human body movement, weight and momentum in motion, photorealistic.']
+[Full video prompt — final confident actions extracted from the source video. All movements, poses, stride, and energy described from what the video shows in its finale. Concludes with 'Cinematic film grain, 24fps natural motion, real human body movement, weight and momentum in motion, photorealistic.']
 
 SCENE 5 AUDIO:
 Telugu: "[Telugu script]"
 Romanized: "[Romanized Telugu]"
 English: "[English translation]"
-SFX & Music Cue: [Full beat riding, heels clicking, confident energy, music fading out]
+SFX & Music Cue: [Full beat riding, confident energy matching the video's finale, music fading out]
 
 --- CAPTION & HASHTAGS ---
 [Engaging Instagram GRWM caption with CTA, playful Telugu/English slang + 10-15 viral GRWM/fashion/transformation hashtags e.g. #GRWM #GetReadyWithMe #GlowUp #TransformationReel]"""
