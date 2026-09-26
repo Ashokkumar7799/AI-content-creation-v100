@@ -11,13 +11,11 @@ echo "=========================================="
 echo "1. Boot Qwen 3.8 Vision Studio (Chat & Image Mode)"
 echo "2. Boot AI Toolkit Web UI (LoRA Training)"
 echo "3. Boot ComfyUI (Krea 2 / SDXL - venv)"
-echo "4. Setup & Download Krea 2 Models & Nodes"
 echo "5. Boot Qwen 3.8 Video Director (1 FPS Motion Analyzer -> LTX Prompts)"
-echo "6. Setup & Download Wan 2.2 14B SVI Pro (venv_wan)"
 echo "7. Boot ComfyUI for Wan 2.2 SVI Pro (venv_wan)"
 echo "9. ❌ Kill all running AI processes and free VRAM"
 echo "=========================================="
-read -p "Select a launch option (1-9): " option
+read -p "Select a launch option (1, 2, 3, 5, 7, 9): " option
 
 # Master Kill Switch (Ctrl + C)
 trap "echo -e '\n🛑 Stopping all services...'; pkill -f llama-server 2>/dev/null; pkill -f qwen_studio.py 2>/dev/null; pkill -f qwen_video_director.py 2>/dev/null; pkill -f node 2>/dev/null; pkill -f pinggy 2>/dev/null; pkill -f cloudflared 2>/dev/null; pkill -f main.py 2>/dev/null; pkill -P $$ 2>/dev/null; exit 0" SIGINT SIGTERM
@@ -77,7 +75,7 @@ if [ "$option" == "1" ]; then
       
     echo "⏳ Loading 27B model into memory (waiting for backend)..."
     SERVER_READY=0
-    for i in {1..90}; do
+    for i in {1..180}; do
         if curl -s http://127.0.0.1:8080/health 2>/dev/null | grep -q '"ok"'; then
             echo "✅ Qwen 3.8 is 100% loaded and ready in ${i} seconds!"
             SERVER_READY=1
@@ -157,15 +155,16 @@ elif [ "$option" == "3" ]; then
 
 elif [ "$option" == "4" ]; then
     echo "=========================================="
-    echo "📦 Running Krea 2 Setup & Downloader..."
+    echo "ℹ️ Setup Option 4 is disabled to prevent accidental overwrites."
+    echo "Nothing was executed. Use Option 3 to boot ComfyUI (Krea 2)."
     echo "=========================================="
-    if [ -f "$HOME/setup_krea2.sh" ]; then
-        bash "$HOME/setup_krea2.sh"
-    elif [ -f "./setup_krea2.sh" ]; then
-        bash "./setup_krea2.sh"
-    else
-        echo "⚠️ setup_krea2.sh not found."
-    fi
+    # Preserved for future reference:
+    # if [ -f "$HOME/setup_krea2.sh" ]; then
+    #     bash "$HOME/setup_krea2.sh"
+    # elif [ -f "./setup_krea2.sh" ]; then
+    #     bash "./setup_krea2.sh"
+    # fi
+    exit 0
 
 elif [ "$option" == "5" ]; then
     echo "=========================================="
@@ -196,7 +195,7 @@ elif [ "$option" == "5" ]; then
           
         echo "⏳ Loading 27B model into memory..."
         SERVER_READY=0
-        for i in {1..90}; do
+        for i in {1..180}; do
             if curl -s http://127.0.0.1:8080/health 2>/dev/null | grep -q '"ok"'; then
                 echo "✅ Qwen 3.8 is 100% loaded and ready in ${i} seconds!"
                 SERVER_READY=1
@@ -235,15 +234,16 @@ elif [ "$option" == "5" ]; then
 
 elif [ "$option" == "6" ]; then
     echo "=========================================="
-    echo "📦 Running Wan 2.2 14B SVI Pro Setup & Downloader..."
+    echo "ℹ️ Setup Option 6 is disabled to prevent accidental overwrites."
+    echo "Nothing was executed. Use Option 7 to boot ComfyUI (Wan 2.2 SVI Pro)."
     echo "=========================================="
-    if [ -f "$AI_DIR/setup_wan22_svi.sh" ]; then
-        bash "$AI_DIR/setup_wan22_svi.sh"
-    elif [ -f "./setup_wan22_svi.sh" ]; then
-        bash "./setup_wan22_svi.sh"
-    else
-        echo "⚠️ setup_wan22_svi.sh not found."
-    fi
+    # Preserved for future reference:
+    # if [ -f "$AI_DIR/setup_wan22_svi.sh" ]; then
+    #     bash "$AI_DIR/setup_wan22_svi.sh"
+    # elif [ -f "./setup_wan22_svi.sh" ]; then
+    #     bash "./setup_wan22_svi.sh"
+    # fi
+    exit 0
 
 elif [ "$option" == "7" ]; then
     echo "=========================================="
