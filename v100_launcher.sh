@@ -55,6 +55,68 @@ start_pinggy() {
     done
 }
 
+# Cloudflare Tunnel function (does not expire after 1 hour - dedicated for Option 5)
+start_cloudflare() {
+    local port=$1
+    echo ""
+    echo "=========================================="
+    echo " 🌐 STARTING CLOUDFLARE TUNNEL ON PORT $port"
+    echo "=========================================="
+
+    CLOUDFLARED_BIN="cloudflared"
+    if ! command -v cloudflared &>/dev/null; then
+        if [ -x "$AI_DIR/cloudflared" ]; then
+            CLOUDFLARED_BIN="$AI_DIR/cloudflared"
+        elif [ -x "/usr/local/bin/cloudflared" ]; then
+            CLOUDFLARED_BIN="/usr/local/bin/cloudflared"
+        else
+            echo "⚙️ cloudflared not found in PATH. Downloading standalone binary..."
+            curl -sL https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64 -o "$AI_DIR/cloudflared" 2>/dev/null || wget -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64 -O "$AI_DIR/cloudflared"
+            chmod +x "$AI_DIR/cloudflared"
+            if [ -x "$AI_DIR/cloudflared" ]; then
+                CLOUDFLARED_BIN="$AI_DIR/cloudflared"
+                echo "✅ cloudflared downloaded to $AI_DIR/cloudflared"
+            else
+                echo "❌ Failed to download cloudflared. Falling back to Pinggy..."
+                start_pinggy $port
+                return
+            fi
+        fi
+    fi
+
+    pkill -f cloudflared 2>/dev/null || true
+    rm -f "$AI_DIR/cloudflared.log"
+
+    $CLOUDFLARED_BIN tunnel --url http://127.0.0.1:$port > "$AI_DIR/cloudflared.log" 2>&1 &
+    CF_PID=$!
+
+    echo "⏳ Generating Cloudflare public tunnel URL..."
+    CF_URL=""
+    for i in {1..30}; do
+        if [ -f "$AI_DIR/cloudflared.log" ]; then
+            CF_URL=$(grep -o 'https://[-a-zA-Z0-9.]*trycloudflare\.com' "$AI_DIR/cloudflared.log" | head -n 1)
+            if [ -n "$CF_URL" ]; then
+                break
+            fi
+        fi
+        sleep 1
+    done
+
+    if [ -n "$CF_URL" ]; then
+        echo -e "\n🟢 YOUR CLOUDFLARE SECURE PUBLIC URL IS:"
+        echo "🔗 $CF_URL"
+        echo "=========================================="
+        echo "💡 Note: Cloudflare tunnels do NOT expire after 1 hour."
+        echo "Press Ctrl+C to stop all services."
+        wait $CF_PID
+    else
+        echo "⚠️ Cloudflare tunnel URL not detected in 30s. Log excerpt:"
+        tail -n 10 "$AI_DIR/cloudflared.log" 2>/dev/null
+        echo "Falling back to Pinggy..."
+        start_pinggy $port
+    fi
+}
+
 if [ "$option" == "1" ]; then
     echo "=========================================="
     echo "🧠 Booting Qwen 3.8 (27B) Backend Server..."
@@ -230,7 +292,7 @@ elif [ "$option" == "5" ]; then
         sleep 1
     done
     
-    start_pinggy 7861
+    start_cloudflare 7861
 
 elif [ "$option" == "6" ]; then
     echo "=========================================="
