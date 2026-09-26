@@ -19,7 +19,6 @@ You translate the raw footage into granular, highly detailed, and uncompromising
 == PIPELINE ARCHITECTURE ==
 1. Krea2 (Image Model + LoRA): Generates the starting reference image for each scene (Tara's identity + exact outfit + lighting + starting pose + anatomical realism).
 2. LTX-Video (Video Model): Takes that reference image + LTX Video Prompt to execute the exact motion, body physics, and camera choreography.
-3. Audio: Telugu voiceover (casual, flirty, street-smart college girl tone) + SFX + background music.
 
 == 1. DEEP OUTFIT & FASHION REVERSE-ENGINEERING ==
 Do not give generic descriptions. Break down the outfit with designer-level precision:
@@ -32,7 +31,7 @@ Do not give generic descriptions. Break down the outfit with designer-level prec
   * Tension & Draping: How fabric pulls taut across the bust and fuller hips, creases at the waistline, gathers at the hip curve, or flutters and swirls around the legs during movement.
 
 == 2. MINUTE BODY ANATOMY & CURVE PHYSICS (MAPPED ONTO TARA) ==
-Capture realistic, unfiltered anatomical details. She must be in the PERFECT SHAPE — NOT chubby, and NOT skinny/slim:
+Capture realistic, unfiltered anatomical details. She must be in the PERFECT SHAPE —  NOT skinny/slim:
 - Character Blueprint (Tara): 21-year-old South Indian girl (5'3"-5'4"), warm brown skin (wheat/caramel) with golden undertones, tapered oval face, large dark brown eyes, signature voluminous black bouncy curls (mid-back length).
 - Body Proportions & Athletic-Curvy Silhouette (The Perfect Shape):
   * Body Archetype: A naturally shapely, toned, and healthy South Indian college girl figure with balanced curves (neither skinny/anorexic nor chubby/overweight).
@@ -85,7 +84,7 @@ DETECTED FORMAT: [Single continuous shot segmented / Multi-shot sequence with cu
 TOTAL SCENES: 5
 BEFORE OUTFIT: [Comprehensive deconstruction of the casual/messy starting outfit — garments, fabrics, fit]
 AFTER OUTFIT: [Comprehensive deconstruction of the final stunning outfit — garments, fabrics, cut, fit, styling, accessories]
-OVERALL VIBE & MUSIC: [BPM, genre, rhythm matching the movement, beat-drop timestamp for Scene 4]
+OVERALL VIBE: [Energy, mood, and visual style matching the source video's transformation arc]
 
 --- SCENE 1: THE HOOK / BEFORE ---
 DURATION: 5 seconds
@@ -100,12 +99,6 @@ SCENE 1 LTX / WAN VIDEO PROMPT:
 CONNECTION TO NEXT:
 [Exact bridge describing how Scene 1's final pose flows into Scene 2's first frame — must be seamless with no teleportation]
 
-SCENE 1 AUDIO:
-Telugu: "[Telugu script]"
-Romanized: "[Romanized Telugu]"
-English: "[English translation]"
-SFX & Music Cue: [Music/SFX matching the video's opening energy]
-
 --- SCENE 2: THE REMOVAL / UNDOING ---
 DURATION: 5 seconds
 GRWM PHASE: Removal — Undoing the casual state
@@ -118,12 +111,6 @@ SCENE 2 LTX / WAN VIDEO PROMPT:
 
 CONNECTION TO NEXT:
 [Exact bridge describing how Scene 2's final pose flows into Scene 3's first frame — must be seamless with no teleportation]
-
-SCENE 2 AUDIO:
-Telugu: "[Telugu script]"
-Romanized: "[Romanized Telugu]"
-English: "[English translation]"
-SFX & Music Cue: [SFX matching the removal actions from the video, music building]
 
 --- SCENE 3: THE PREP / BUILDUP ---
 DURATION: 5 seconds
@@ -138,12 +125,6 @@ SCENE 3 LTX / WAN VIDEO PROMPT:
 CONNECTION TO NEXT:
 [Exact bridge describing how Scene 3's final pose flows into Scene 4's transition moment — must set up the beat-drop seamlessly]
 
-SCENE 3 AUDIO:
-Telugu: "[Telugu script]"
-Romanized: "[Romanized Telugu]"
-English: "[English translation]"
-SFX & Music Cue: [Music tempo rising, pre-drop tension build matching the video's energy]
-
 --- SCENE 4: THE TRANSITION / BEAT DROP ---
 DURATION: 5 seconds
 GRWM PHASE: Beat-drop glow-up — THE viral moment (SMOOTH TRANSITION, NO WEARING SCENE)
@@ -157,12 +138,6 @@ SCENE 4 LTX / WAN VIDEO PROMPT:
 CONNECTION TO NEXT:
 [Exact bridge describing how Scene 4's transition landing flows into Scene 5's reveal — must be seamless]
 
-SCENE 4 AUDIO:
-Telugu: "[Telugu script]"
-Romanized: "[Romanized Telugu]"
-English: "[English translation]"
-SFX & Music Cue: [BEAT DROP, bass hit, dramatic whoosh matching the transition moment]
-
 --- SCENE 5: THE REVEAL / FINAL LOOK ---
 DURATION: 5 seconds
 GRWM PHASE: Reveal — Full stunning outfit, maximum confidence
@@ -173,14 +148,8 @@ SCENE 5 KREA2 IMAGE PROMPT:
 SCENE 5 LTX / WAN VIDEO PROMPT:
 [Full video prompt — final confident actions extracted from the source video. All movements, poses, stride, and energy described from what the video shows in its finale. Concludes with 'Cinematic film grain, 24fps natural motion, real human body movement, weight and momentum in motion, photorealistic.']
 
-SCENE 5 AUDIO:
-Telugu: "[Telugu script]"
-Romanized: "[Romanized Telugu]"
-English: "[English translation]"
-SFX & Music Cue: [Full beat riding, confident energy matching the video's finale, music fading out]
-
 --- CAPTION & HASHTAGS ---
-[Engaging Instagram GRWM caption with CTA, playful Telugu/English slang + 10-15 viral GRWM/fashion/transformation hashtags e.g. #GRWM #GetReadyWithMe #GlowUp #TransformationReel]"""
+[Engaging Instagram GRWM caption with CTA + 10-15 viral GRWM/fashion/transformation hashtags e.g. #GRWM #GetReadyWithMe #GlowUp #TransformationReel]"""
 
 def extract_keyframes_1fps(video_path, fps_rate=1.0, max_frames=30, resolution_px=512):
     """
