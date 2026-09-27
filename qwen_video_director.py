@@ -59,15 +59,16 @@ Analyze every second of the model's performance with exact mechanical precision:
   * Recommended Framing for Face Quality: When possible, prefer medium shots (waist-up), medium close-ups (chest-up), or seated medium shots where the face remains clear and naturally prominent. Try to avoid overly distant or wide shots where the face is very small in frame, as well as extreme tight close-ups that cut off the outfit.
 
 == 4. SCENE SEGMENTATION — DYNAMIC, VIDEO-DRIVEN ==
-Each scene is exactly 5 seconds. The number of scenes is determined entirely by the video duration:
-- TOTAL SCENES = video duration ÷ 5 (round to nearest whole number)
-- Example: 20-second video = 4 scenes. 25-second video = 5 scenes. 15-second video = 3 scenes.
+Each scene is exactly 5 seconds. The number of scenes is determined by the video duration:
+- TOTAL SCENES = video duration ÷ 5 (round UP)
+- Example: 20-second video = 4 scenes. 13-second video = 3 scenes. 7-second video = 2 scenes.
+- If the last scene has fewer than 5 seconds of video frames, simply fill the remaining seconds with a hold of the final pose fading to black. Don't overthink it.
 
 You are given frames extracted at 1 frame per second. Each frame = exactly 1 second of the video.
 Your job is to map EVERY SECOND of the video with complete precision to its scene.
 
 SCENE CONSTRUCTION RULE — SECOND-BY-SECOND MAPPING:
-For each scene (5 consecutive seconds), you must describe EXACTLY what is happening in each of those 5 frames:
+For each scene (5 consecutive seconds), describe EXACTLY what is happening in each of those 5 frames:
 - Second 1 of scene: What is the model doing at that exact second? What pose? What limb position? What expression? What action?
 - Second 2 of scene: What changed? Did the hand move? Did the weight shift? Did the gaze change?
 - Second 3 of scene: Continued — what is happening exactly?
