@@ -299,9 +299,9 @@ def director_fn(user_text, video_file, history_messages, display_history, video_
                             current_time = time.time()
                             if current_time - last_yield_time > yield_interval:
                                 live_view = render_output(reasoning_reply, content_reply)
-                                live_prompt = extract_clean_prompt(content_reply)
+                                # live_prompt = extract_clean_prompt(content_reply)
                                 display_history[-1] = {"role": "assistant", "content": live_view}
-                                yield display_history, history_messages, "", gallery_images, live_prompt, video_cache
+                                yield display_history, history_messages, "", gallery_images, live_view, video_cache
                                 last_yield_time = current_time
                     except json.JSONDecodeError:
                         pass
@@ -315,10 +315,10 @@ def director_fn(user_text, video_file, history_messages, display_history, video_
             response.close()
 
     final_view = render_output(reasoning_reply, content_reply)
-    final_prompt = extract_clean_prompt(content_reply)
+    # final_prompt = extract_clean_prompt(content_reply)
     display_history[-1] = {"role": "assistant", "content": final_view}
     history_messages.append({"role": "assistant", "content": final_view})
-    yield display_history, history_messages, "", gallery_images, final_prompt, video_cache
+    yield display_history, history_messages, "", gallery_images, final_view, video_cache
 
 def stop_video_analysis():
     try:
@@ -363,7 +363,7 @@ with gr.Blocks(title="Qwen 3.8 Video Director Studio") as demo:
 
             latest_output = gr.Textbox(
                 label="📋 Complete Production Package & LTX Prompts (Select & Copy)",
-                lines=6,
+                lines=10,
                 interactive=False
             )
 
