@@ -234,7 +234,7 @@ def director_fn(user_text, video_file, history_messages, display_history, video_
         user_prompt_text = (
             f"This is a chronological sequence of {len(base64_frames)} frames sampled at {fps_rate} fps from a {duration:.1f}-second video.\n"
             f"Additional Creator Instructions: {user_text.strip() if user_text and user_text.strip() else 'Reverse-engineer the exact motion, choreography, footwork, physics, and camera path.'}\n\n"
-            "Reverse-engineer this entire video sequence into the required production package (up to 5 scenes max) with exact Krea2 reference image prompts and micro-choreographed LTX-Video prompts featuring Tara."
+            "Reverse-engineer this entire video sequence into the required production package with exact Krea2 reference image prompts and micro-choreographed LTX-Video prompts featuring Tara."
         )
         current_content.append({"type": "text", "text": user_prompt_text})
         user_display = f"🎥 **Analyzed Video:** {len(base64_frames)} frames ({duration:.1f}s at {fps_rate} fps)\n\n"
