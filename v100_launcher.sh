@@ -29,6 +29,7 @@ fuser -k 3000/tcp 2>/dev/null || true
 fuser -k 8675/tcp 2>/dev/null || true
 fuser -k 8188/tcp 2>/dev/null || true
 pkill -f llama-server 2>/dev/null || true
+pkill -9 -f llama-server 2>/dev/null || true
 pkill -f qwen_studio.py 2>/dev/null || true
 pkill -f qwen_video_director.py 2>/dev/null || true
 pkill -f node 2>/dev/null || true
@@ -336,7 +337,16 @@ elif [ "$option" == "7" ]; then
     start_pinggy 8188
 
 elif [ "$option" == "9" ]; then
-    echo "✅ ALL AI PROCESSES KILLED. RAM IS COMPLETELY FREE."
+    # Force kill any stubborn lingering processes (e.g. llama-server holding 14GB VRAM)
+    pkill -9 -f llama-server 2>/dev/null || true
+    pkill -9 -f qwen_studio.py 2>/dev/null || true
+    pkill -9 -f qwen_video_director.py 2>/dev/null || true
+    pkill -9 -f main.py 2>/dev/null || true
+    fuser -k -9 8080/tcp 2>/dev/null || true
+    fuser -k -9 7860/tcp 2>/dev/null || true
+    fuser -k -9 7861/tcp 2>/dev/null || true
+    fuser -k -9 8188/tcp 2>/dev/null || true
+    echo "✅ ALL AI PROCESSES KILLED. RAM & VRAM ARE COMPLETELY FREE."
 else
     echo "⚠️ Feature coming soon!"
 fi
